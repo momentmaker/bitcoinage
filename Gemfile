@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.1.2'
 
 gem 'rails', '4.1.6'
 gem 'pg'
@@ -13,6 +14,7 @@ gem 'foundation-rails'
 gem 'omniauth-twitter'
 gem 'redcarpet'
 gem 'gon'
+gem 'unicorn'
 gem 'rails_12factor', group: :production
 
 group :development, :test do

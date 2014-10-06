@@ -2,11 +2,9 @@ class PricePoint < ActiveRecord::Base
   def self.data
     data = get_json
     chart_array = []
-
     data["bpi"].each do |date, price|
       chart_array << [convert_time(date), price]
     end
-
     chart_array
   end
 

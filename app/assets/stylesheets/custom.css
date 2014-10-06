@@ -1,0 +1,10 @@
+.flash {
+  padding: 1em;
+  background-color: #3B9089;
+}
+
+.flash-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%= include_gon %>
+
+    <title>Bitcoinage</title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><%= link_to 'Bitcoinage', root_path %></h1>
+        </li>
+        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon">
+          <a href="#"><span>Menu</span></a>
+        </li>
+      </ul>
+      <section class="top-bar-section">
+      <!-- Right Nav Section -->
+      <ul class="right">
+          <% if user_signed_in? %>
+            <li><%= image_tag current_user.image, size: "42x42" %></li>
+            <li class="divider"></li>
+            <li><%=link_to "@#{current_user.username}", "#{current_user.url}" %> </li>
+            <li class="divider"></li>
+            <li class="active"><%= link_to 'Sign Out', user_sign_out_path %></li>
+          <% else %>
+            <li class="active"><%= link_to 'Sign In', user_sign_in_path %></li>
+          <% end %>
+      </ul>
+      <!-- Left Nav Section -->
+      <!-- <ul class="left">
+        <li><a href="#">Left Nav Button</a></li>
+         </ul> -->
+       </section>
+     </nav>
+
+<% if flash.any? %>
+  <div class="flash">
+    <div class="flash-container">
+      <%= flash[:notice] %>
+    </div>
+  </div>
+<% end %>
+
+    <%= yield %>
+    <%= javascript_include_tag "application" %>
+  </body>
+</html>

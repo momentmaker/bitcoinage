@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
+//= require jquery-migrate
 //= require chart
 //= require_tree .
 

@@ -1,6 +1,3 @@
-<% content_for :head do %>
-  <%= include_gon %>
-<% end %>
 <% provide(:title, 'Add New Transaction') %>
 <div class="form-wrapper">
   <%= render "transactions/form", transaction: @transaction %>

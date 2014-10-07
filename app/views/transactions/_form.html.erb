@@ -1,9 +1,9 @@
 <%= simple_form_for @transaction do |f| %>
-  <%= f.input :quantity, placeholder: 'B⃦' %>
-  <%= f.input :price, placeholder: '$' %>
+  <%= f.input :convert_satoshi, placeholder: 'B⃦', label: 'Bitcoins' %>
+  <%= f.input :convert_currency, placeholder: '$' %>
   <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
-  <%= f.input :fees, placeholder: '$', required: true %>
-  <%= f.input :wallet, label: "Your Public Wallet's Address" %>
-  <%= f.input :trans_hash, label: "Transaction's Hash" %>
+  <%= f.input :convert_fees, collection: ["0.1%", "0.2%", "0.25%", "0.3%", "0.5%", "0.75%", "1.0%", "1.25%", "1.5%", "2.0%"], required: true %>
+  <%= f.input :wallet, label: "Wallet Address" %>
+  <%= f.input :trans_hash, label: "Transaction Hash" %>
   <%= f.button :submit, class: "small" %>
 <% end %>

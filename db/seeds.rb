@@ -7,6 +7,5 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 PricePoint.data.each do |e|
-  # binding.pry
   PricePoint.create(date: e[0], price: e[1])
 end

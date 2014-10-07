@@ -22,7 +22,5 @@
 $(function(){ $(document).foundation(); });
 
 $('.datepicker').pickadate({
-      today: 'Today',
-    clear: 'Clear selection',
-    close: 'Cancel'
+
 })

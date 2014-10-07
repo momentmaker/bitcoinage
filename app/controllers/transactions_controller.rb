@@ -12,13 +12,12 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = Transaction.new
-    @chart_data = get_chart_data
-    gon.chart_data = @chart_data
   end
 
   def create
     @transaction = Transaction.new(transaction_params)
 
+    @transaction.user = current_user
     if @transaction.save
       redirect_to @transaction, notice: 'Your transaction has been submitted.'
     else
@@ -56,7 +55,7 @@ class TransactionsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def transaction_params
-    params.require(:transaction).permit(:quantity, :price, :date)
+    params.require(:transaction).permit(:convert_satoshi, :convert_currency, :date, :convert_fees, :wallet, :trans_hash)
   end
 
 end

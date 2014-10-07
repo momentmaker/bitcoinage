@@ -13,8 +13,16 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
+//= require pickadate/picker
+//= require pickadate/picker.date
 //= require highstock
 //= require chart
 
 
 $(function(){ $(document).foundation(); });
+
+$('.datepicker').pickadate({
+      today: 'Today',
+    clear: 'Clear selection',
+    close: 'Cancel'
+})

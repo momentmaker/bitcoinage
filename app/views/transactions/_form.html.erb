@@ -1,0 +1,9 @@
+<%= simple_form_for @transaction do |f| %>
+  <%= f.input :quantity, placeholder: 'B⃦' %>
+  <%= f.input :price, placeholder: '$' %>
+  <%= f.input :date, as: :string, input_html: { class: "datepicker" } %>
+  <%= f.input :fees, placeholder: '$', required: true %>
+  <%= f.input :wallet, label: "Your Public Wallet's Address" %>
+  <%= f.input :trans_hash, label: "Transaction's Hash" %>
+  <%= f.button :submit, class: "small" %>
+<% end %>

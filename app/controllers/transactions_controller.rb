@@ -1,4 +1,5 @@
 class TransactionsController < ApplicationController
+  before_action :authenticate!, except: [:index]
   def index
     @transactions = Transaction.order(updated_at: :desc)
     @chart_data = get_chart_data
@@ -11,6 +12,8 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = Transaction.new
+    @chart_data = get_chart_data
+    gon.chart_data = @chart_data
   end
 
   def create

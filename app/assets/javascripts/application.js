@@ -14,8 +14,6 @@
 //= require jquery_ujs
 //= require foundation
 //= require dataTables
-//= require dataTables.jqueryui
-//= require jquery.dataTables.min
 //= require dataTables.foundation
 //= require pickadate/picker
 //= require pickadate/picker.date
@@ -30,5 +28,6 @@ $('.datepicker').pickadate({
 });
 
 $(document).ready( function () {
-    $('#trans_table').DataTable();
+    $('#trans_table').DataTable(
+    );
 } );

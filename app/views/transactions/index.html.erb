@@ -1,28 +1,55 @@
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
-<table id="trans_table" class="order-column" cellspacing="0" width="100%">
+<table id="trans_table" class="order-column stripe hover" cellspacing="0" width="100%">
   <thead>
     <tr>
       <th width="10%">Date</th>
       <th width="20%">Bitcoins</th>
       <th width="10%">Price</th>
       <th width="5%">Fees</th>
-      <th width="15%">Total Spent</th>
+      <th width="15%">Total</th>
       <th width="50%">Wallet</th>
+      <th width="5%"></th>
+      <th width="5%"></th>
     </tr>
   </thead>
-  <% @transactions.each do |transaction| %>
-    <tbody>
+
+    <tfoot>
       <tr>
-        <td><%= transaction.date %></td>
-        <td><%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %></td>
-        <td><%= number_to_currency(transaction.price_dollar) %></td>
-        <td><%= transaction.fees %>%</td>
-        <td><%= number_to_currency(transaction.total_spent) %></td>
-        <td><%= transaction.wallet %></td>
+        <th width="10%">Sum</th>
+        <th width="20%"><%= @transactions.sum(:satoshi) %></th>
+        <th width="10%"><%= @transactions.sum(:price_cent) %></th>
+        <th width="5%"></th>
+        <th width="15%">Total</th>
+        <th width="50%"></th>
+        <th width="5%"></th>
+        <th width="5%"></th>
       </tr>
-    </tbody>
-  <% end %>
+      <tr>
+        <th width="10%">Average</th>
+        <th width="20%"><%= @transactions.average(:satoshi) %></th>
+        <th width="10%"><%= @transactions.average(:price_cent) %></th>
+        <th width="5%"></th>
+        <th width="15%">Total</th>
+        <th width="50%">Wallet</th>
+        <th width="5%"></th>
+        <th width="5%"></th>
+      </tr>
+    </tfoot>
+  <tbody>
+    <% @transactions.each do |transaction| %>
+        <tr>
+          <td><%= transaction.date %></td>
+          <td><%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %></td>
+          <td><%= number_to_currency(transaction.price_dollar) %></td>
+          <td><%= transaction.fees %>%</td>
+          <td><%= number_to_currency(transaction.total_investment, negative_format: "(%u%n)") %></td>
+          <td><%= transaction.wallet %></td>
+          <td width="5%"><%= link_to "Edit", edit_transaction_path(transaction) %></td>
+          <td width="5%"><%= link_to 'Delete', transaction_path(transaction), method: :delete, data: { confirm: "Are you sure?" } %></td>
+        </tr>
+        <% end %>
+      </tbody>
 </table>
 
 <%= link_to "Add New Transaction", new_transaction_path, class: "button radius" %>

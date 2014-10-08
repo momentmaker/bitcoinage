@@ -17,7 +17,7 @@ class TransactionsController < ApplicationController
   def create
     @transaction = current_user.transactions.build(transaction_params)
     if @transaction.save
-      redirect_to @transaction, notice: 'Your transaction has been submitted.'
+      redirect_to transactions_path, notice: 'Your transaction has been submitted.'
     else
       render 'new'
     end
@@ -30,15 +30,15 @@ class TransactionsController < ApplicationController
   def update
     @transaction = Transaction.find(params[:id])
     if @transaction.update(transaction_params)
-      redirect_to @transaction
+      redirect_to transactions_path
     else
       render :edit
     end
   end
 
   def destroy
-    transaction.find(params[:id]).destroy
-    redirect_to @transaction
+    Transaction.find(params[:id]).destroy
+    redirect_to transactions_path
   end
 
   def search

@@ -2,8 +2,8 @@
   <%= f.input :type, collection: ["Buy", "Sell"], as: :radio_buttons, required: true %>
   <%= f.input :bitcoin, placeholder: 'B⃦', label: 'Bitcoins' %>
   <%= f.input :price_dollar, placeholder: '$', label: 'Price' %>
-  <%= f.input :date, as: :string, input_html: { class: "datepicker" }, label: 'Purchase Date' %>
-  <%= f.input :fees,
+  <%= f.input :date, as: :string, input_html: { class: "datepicker" }, label: 'Transaction Date' %>
+  <%= f.input :fees, required: true,
     collection: ["0.1%", "0.2%", "0.25%", "0.3%", "0.5%", "0.75%", "1.0%", "1.25%", "1.5%", "2.0%"] %>
   <%= f.input :wallet, label: "Wallet Address" %>
   <%= f.input :trans_hash, label: "Transaction Hash" %>

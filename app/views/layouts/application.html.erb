@@ -4,10 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <%= include_gon %>
+    <title><%= content_for?(:title) ? yield(:title) : 'Bitcoinage' %></title>
 
-    <title>Bitcoinage</title>
-    
+    <%= include_gon %>
     <%= favicon_link_tag 'favicon.ico' %>
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
@@ -45,15 +44,19 @@
        </section>
      </nav>
 
-<% if flash.any? %>
-  <div class="flash">
-    <div class="flash-container">
-      <%= flash[:notice] %>
-    </div>
-  </div>
-<% end %>
+    <% if flash.any? %>
+      <div class="flash">
+        <div class="flash-container">
+          <%= flash[:notice] %>
+        </div>
+      </div>
+    <% end %>
 
-    <%= yield %>
+    <div class="row">
+      <div class="small-12 columns">
+        <%= yield %>
+      </div>
+    </div>
     <%= javascript_include_tag "application" %>
   </body>
 </html>

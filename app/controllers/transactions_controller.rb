@@ -16,7 +16,6 @@ class TransactionsController < ApplicationController
 
   def create
     @transaction = current_user.transactions.build(transaction_params)
-    # binding.pry
     if @transaction.save
       redirect_to @transaction, notice: 'Your transaction has been submitted.'
     else
@@ -26,7 +25,6 @@ class TransactionsController < ApplicationController
 
   def edit
     @transaction = Transaction.find(params[:id])
-    # @answers = Answer.find(:all)
   end
 
   def update
@@ -52,7 +50,6 @@ class TransactionsController < ApplicationController
 
   private
   def transaction_params
-    params.require(:transaction).permit(:bitcoin, :price_dollar, :date, :fees, :wallet, :trans_hash)
+    params.require(:transaction).permit(:type, :bitcoin, :price_dollar, :date, :fees, :wallet, :trans_hash)
   end
-
 end

@@ -1,6 +1,7 @@
 class Transaction < ActiveRecord::Base
   belongs_to :user
 
+  validates :type, presence: true
   validates :satoshi, presence: true, numericality: { greater_than: 0 }
   validates :bitcoin, presence: true, numericality: { greater_than: 0 }
   validates :price_cent, presence: true, numericality: { greater_than: 0 }
@@ -18,19 +19,11 @@ class Transaction < ActiveRecord::Base
     self.satoshi = value.to_f * 100_000_000
   end
 
-  # before_save do
-  #   if type == "DEBIT"
-  #     self.amount = -absolute_amount
-  #   end
-  # end
-
-  # def convert_satoshi
-  #   satoshi.to_f / 100000000 if satoshi
-  # end
-  #
-  # def convert_satoshi=(bitcoin)
-  #   self.satoshi = bitcoin.to_f * 100000000
-  # end
+  before_save do
+    if type == "Sell"
+      self.satoshi = -(self.satoshi)
+    end
+  end
 
   def price_dollar
     price_cent.to_f / 100 if price_cent

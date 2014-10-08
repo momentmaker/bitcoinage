@@ -13,14 +13,14 @@
   </thead>
   <% @transactions.each do |transaction| %>
     <tbody>
-    <tr>
-      <td><%= transaction.date %></td>
-      <td><%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8) %></td>
-      <td><%= number_to_currency(transaction.price_dollar, negative_format: "(%u%n)") %></td>
-      <td><%= transaction.fees %>%</td>
-      <td><%= number_to_currency(transaction.total_spent) %></td>
-      <td><%= transaction.wallet %></td>
-    </tr>
+      <tr>
+        <td><%= transaction.date %></td>
+        <td><%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %></td>
+        <td><%= number_to_currency(transaction.price_dollar) %></td>
+        <td><%= transaction.fees %>%</td>
+        <td><%= number_to_currency(transaction.total_spent) %></td>
+        <td><%= transaction.wallet %></td>
+      </tr>
     </tbody>
   <% end %>
 </table>

@@ -1,4 +1,5 @@
 <%= simple_form_for @transaction do |f| %>
+  <%= f.input :type, collection: ["Buy", "Sell"], as: :radio_buttons, required: true %>
   <%= f.input :bitcoin, placeholder: 'B⃦', label: 'Bitcoins' %>
   <%= f.input :price_dollar, placeholder: '$', label: 'Price' %>
   <%= f.input :date, as: :string, input_html: { class: "datepicker" }, label: 'Purchase Date' %>

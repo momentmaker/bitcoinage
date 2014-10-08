@@ -15,9 +15,8 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new(transaction_params)
-
-    @transaction.user = current_user
+    @transaction = current_user.transactions.build(transaction_params)
+    # binding.pry
     if @transaction.save
       redirect_to @transaction, notice: 'Your transaction has been submitted.'
     else
@@ -52,10 +51,8 @@ class TransactionsController < ApplicationController
   end
 
   private
-
-  # Never trust parameters from the scary internet, only allow the white list through.
   def transaction_params
-    params.require(:transaction).permit(:convert_satoshi, :convert_currency, :date, :convert_fees, :wallet, :trans_hash)
+    params.require(:transaction).permit(:bitcoin, :price_dollar, :date, :fees, :wallet, :trans_hash)
   end
 
 end

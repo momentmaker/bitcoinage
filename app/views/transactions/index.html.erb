@@ -1,3 +1,28 @@
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
-<%= link_to "Add New Transaction", new_transaction_path %>
+<table id="trans_table" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th width="10%">Date</th>
+      <th width="20%">Bitcoins</th>
+      <th width="10%">Price</th>
+      <th width="5%">Fees</th>
+      <th width="10%">Total Spent</th>
+      <th width="55%">Wallet</th>
+    </tr>
+  </thead>
+  <% @transactions.each do |transaction| %>
+    <tbody>
+    <tr>
+      <td><%= transaction.date %></td>
+      <td><%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8) %></td>
+      <td><%= number_to_currency(transaction.price_dollar, negative_format: "(%u%n)") %></td>
+      <td><%= transaction.fees %>%</td>
+      <td><%= number_to_currency(transaction.total_spent) %></td>
+      <td><%= transaction.wallet %></td>
+    </tr>
+    </tbody>
+  <% end %>
+</table>
+
+<%= link_to "Add New Transaction", new_transaction_path, class: "button radius"%>

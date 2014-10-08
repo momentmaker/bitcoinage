@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
+//= require dataTables
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require highstock
@@ -23,4 +24,8 @@ $(function(){ $(document).foundation(); });
 
 $('.datepicker').pickadate({
 
-})
+});
+
+$(document).ready( function () {
+    $('#trans_table').DataTable();
+} );

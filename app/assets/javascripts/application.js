@@ -32,6 +32,11 @@ $('.datepicker').pickadate({
 $(document).ready( function() {
   $('#trans_table').dataTable( {
     "aoColumnDefs": [
-      { "bSortable": false, "aTargets": [ 6, 7 ] }
+      { "bSortable": false, "aTargets": [6, 7] }
     ] } );
+  var oTable = $('#trans_table').dataTable();
+
+  // Sort immediately with columns 0 and 1
+  oTable.fnSort( [ [0,'desc'] ] );
+  new $.fn.dataTable.KeyTable( oTable );
 } );

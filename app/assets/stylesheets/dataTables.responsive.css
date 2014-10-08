@@ -20,7 +20,7 @@ table.dataTable.dtr-inline.collapsed tbody th:first-child:before {
   box-shadow: 0 0 3px #444;
   box-sizing: content-box;
   content: '+';
-  background-color: #31b131;
+  background-color: #f89d2f;
 }
 table.dataTable.dtr-inline.collapsed tbody tr.parent td:first-child:before,
 table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
@@ -53,7 +53,7 @@ table.dataTable.dtr-column tbody th.control:before {
   box-shadow: 0 0 3px #444;
   box-sizing: content-box;
   content: '+';
-  background-color: #31b131;
+  background-color: #f89d2f;
 }
 table.dataTable.dtr-column tbody tr.parent td.control:before,
 table.dataTable.dtr-column tbody tr.parent th.control:before {

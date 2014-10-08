@@ -1,16 +1,16 @@
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
-<table id="trans_table" class="order-column stripe hover" cellspacing="0" width="100%">
+<table id="trans_table" class="order-column stripe hover responsive" cellspacing="0" width="100%">
   <thead>
     <tr>
       <th width="10%">Date</th>
-      <th width="20%">Bitcoins</th>
+      <th width="15%">Bitcoins</th>
       <th width="10%">Price</th>
       <th width="5%">Fees</th>
-      <th width="15%">Total</th>
-      <th width="50%">Wallet</th>
-      <th width="5%"></th>
-      <th width="5%"></th>
+      <th width="13%">Total</th>
+      <th width="37%">Wallet</th>
+      <th width="5%"><i class="fa fa-pencil-square-o"></i></th>
+      <th width="5%"><i class="fa fa-eraser"></i></th>
     </tr>
   </thead>
 
@@ -31,7 +31,7 @@
         <th width="10%"><%= @transactions.average(:price_cent) %></th>
         <th width="5%"></th>
         <th width="15%">Total</th>
-        <th width="50%">Wallet</th>
+        <th width="50%"></th>
         <th width="5%"></th>
         <th width="5%"></th>
       </tr>
@@ -40,7 +40,17 @@
     <% @transactions.each do |transaction| %>
         <tr>
           <td><%= transaction.date %></td>
-          <td><%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %></td>
+          <td>
+            <% if transaction.bitcoin < 0 %>
+              <div class="bitcoins-sell">
+                <%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
+              </div>
+            <% else %>
+              <div class="bitcoins-buy">
+                <%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
+              </div>
+            <% end %>
+          </td>
           <td><%= number_to_currency(transaction.price_dollar) %></td>
           <td><%= transaction.fees %>%</td>
           <td><%= number_to_currency(transaction.total_investment, negative_format: "(%u%n)") %></td>

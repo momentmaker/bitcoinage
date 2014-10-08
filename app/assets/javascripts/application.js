@@ -15,6 +15,8 @@
 //= require foundation
 //= require dataTables
 //= require dataTables.foundation
+//= require dataTables.keyTable
+//= require dataTables.responsive
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require highstock
@@ -27,7 +29,9 @@ $('.datepicker').pickadate({
 
 });
 
-$(document).ready( function () {
-    $('#trans_table').DataTable(
-    );
+$(document).ready( function() {
+  $('#trans_table').dataTable( {
+    "aoColumnDefs": [
+      { "bSortable": false, "aTargets": [ 6, 7 ] }
+    ] } );
 } );

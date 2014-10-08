@@ -1,0 +1,28 @@
+.form-wrapper{
+  width: 50%;
+  margin-left: 30%;
+}
+
+.flash {
+  padding: 1em;
+  background-color: #3B9089;
+}
+
+.flash-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+table.dataTable th,
+    table.dataTable td {
+        white-space: nowrap;
+    }
+
+.bitcoins-buy {
+  color: #216C2A;
+}
+
+.bitcoins-sell {
+  color: #8A0707;
+}

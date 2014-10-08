@@ -11,18 +11,18 @@ class Transaction < ActiveRecord::Base
 
   attr_accessor :type
 
+  before_save do
+    if type == "Sell"
+      self.satoshi = -(self.satoshi) if self.satoshi > 0
+    end
+  end
+
   def bitcoin
     satoshi.to_f / 100_000_000 if satoshi
   end
 
   def bitcoin=(value)
     self.satoshi = value.to_f * 100_000_000
-  end
-
-  before_save do
-    if type == "Sell"
-      self.satoshi = -(self.satoshi) if self.satoshi > 0
-    end
   end
 
   def price_dollar

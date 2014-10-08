@@ -30,8 +30,32 @@ $('.datepicker').pickadate({
 });
 
 $(document).ready( function() {
+  function satoshiValue(string) {
+    if (string[0] == "(") {
+      return -parseFloat(string.substring(3, string.length - 1));
+    } else {
+      return parseFloat(string.substring(2, string.length - 1));
+    }
+  }
+
+  $.fn.dataTableExt.oSort['satoshi-asc'] = function(xString, yString) {
+    var x = satoshiValue($(xString).text().trim());
+    var y = satoshiValue($(yString).text().trim());
+
+    return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+  };
+
+  $.fn.dataTableExt.oSort['satoshi-desc'] = function(xString, yString) {
+    var x = satoshiValue($(xString).text().trim());
+    var y = satoshiValue($(yString).text().trim());
+
+    return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+  };
+
+
   $('#trans_table').dataTable( {
     "aoColumnDefs": [
+      { "type": "satoshi", "targets": [1] },
       { "bSortable": false, "aTargets": [6, 7] }
     ] } );
   var oTable = $('#trans_table').dataTable();

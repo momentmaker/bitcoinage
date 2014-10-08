@@ -17,8 +17,8 @@
     <tfoot>
       <tr>
         <th width="10%">Sum</th>
-        <th width="20%"><%= @transactions.sum(:satoshi) %></th>
-        <th width="10%"><%= @transactions.sum(:price_cent) %></th>
+        <th width="20%"><%= number_to_currency("#{@transactions.total_bitcoin}", unit: "B⃦", precision: 8) %></th>
+        <th width="10%"><%= number_to_currency("#{@transactions.total_dollar}") %></th>
         <th width="5%"></th>
         <th width="15%">Total</th>
         <th width="50%"></th>
@@ -27,8 +27,8 @@
       </tr>
       <tr>
         <th width="10%">Average</th>
-        <th width="20%"><%= @transactions.average(:satoshi) %></th>
-        <th width="10%"><%= @transactions.average(:price_cent) %></th>
+        <th width="20%"><%= number_to_currency("#{@transactions.avg_bitcoin}", unit: "B⃦", precision: 8) %></th>
+        <th width="10%"><%= number_to_currency("#{@transactions.avg_dollar}") %></th>
         <th width="5%"></th>
         <th width="15%">Total</th>
         <th width="50%"></th>

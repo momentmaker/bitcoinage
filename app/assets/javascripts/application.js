@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require foundation
 //= require dataTables
+//= require dataTables.jqueryui
+//= require jquery.dataTables.min
 //= require dataTables.foundation
 //= require pickadate/picker
 //= require pickadate/picker.date

@@ -1,14 +1,14 @@
 <div id="container" style="height: 400px; min-width: 310px"></div>
 
-<table id="trans_table" class="display" cellspacing="0" width="100%">
+<table id="trans_table" class="order-column" cellspacing="0" width="100%">
   <thead>
     <tr>
       <th width="10%">Date</th>
       <th width="20%">Bitcoins</th>
       <th width="10%">Price</th>
       <th width="5%">Fees</th>
-      <th width="10%">Total Spent</th>
-      <th width="55%">Wallet</th>
+      <th width="15%">Total Spent</th>
+      <th width="50%">Wallet</th>
     </tr>
   </thead>
   <% @transactions.each do |transaction| %>
@@ -25,4 +25,4 @@
   <% end %>
 </table>
 
-<%= link_to "Add New Transaction", new_transaction_path, class: "button radius"%>
+<%= link_to "Add New Transaction", new_transaction_path, class: "button radius" %>

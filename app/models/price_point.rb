@@ -13,6 +13,11 @@ class PricePoint < ActiveRecord::Base
     date[0..9]
   end
 
+  def self.get_todays_date
+    date = Time.at(Time.now.to_i).to_s
+    date[0..9]
+  end
+
   def self.get_json
     date = get_previous_date
     JSON.load(open("https://api.coindesk.com/v1/bpi/historical/close.json?start=2011-01-01&end=#{date}"))

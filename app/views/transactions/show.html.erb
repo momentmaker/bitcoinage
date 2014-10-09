@@ -1,0 +1,19 @@
+<h1>Transaction</h1>
+
+<h3><%= @transaction.date %></h3>
+<h3>
+  <% if @transaction.bitcoin < 0 %>
+    <div class="bitcoins-sell">
+      <%= number_to_currency(@transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
+    </div>
+  <% else %>
+    <div class="bitcoins-buy">
+      <%= number_to_currency(@transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
+    </div>
+  <% end %>
+</h3>
+<h3><%= number_to_currency(@transaction.price_dollar) %></h3>
+<h3><%= @transaction.fees %>%</h3>
+<h3><%= number_to_currency(@transaction.total_investment, negative_format: "(%u%n)") %></h3>
+<h3><%= @transaction.wallet %></h3>
+<h3><%= @transaction.trans_hash %></h3>

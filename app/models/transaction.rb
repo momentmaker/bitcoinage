@@ -24,11 +24,14 @@ class Transaction < ActiveRecord::Base
   end
 
   def find_type
-    # binding.pry
-    if satoshi > 0
-      return "Buy"
-    else
-      return "Sell"
+    if satoshi != nil
+      if satoshi > 0
+        return "Buy"
+      elsif satoshi < 0
+        return "Sell"
+      else
+        return nil
+      end
     end
   end
 

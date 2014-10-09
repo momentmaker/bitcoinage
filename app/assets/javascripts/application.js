@@ -38,6 +38,14 @@ $(document).ready( function() {
     }
   }
 
+  function priceValue(string) {
+    if (string[0] == "(") {
+      return -parseFloat(string.substring(2, string.length));
+    } else {
+      return parseFloat(string.substring(1, string.length));
+    }
+  }
+
   $.fn.dataTableExt.oSort['satoshi-asc'] = function(xString, yString) {
     var x = satoshiValue($(xString).text().trim());
     var y = satoshiValue($(yString).text().trim());
@@ -52,10 +60,25 @@ $(document).ready( function() {
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
   };
 
+  $.fn.dataTableExt.oSort['price-asc'] = function(xString, yString) {
+    var x = priceValue(xString.replace(/,/g, ''));
+    var y = priceValue(yString.replace(/,/g, ''));
+
+    return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+  };
+
+  $.fn.dataTableExt.oSort['price-desc'] = function(xString, yString) {
+    var x = priceValue(xString.replace(/,/g, ''));
+    var y = priceValue(yString.replace(/,/g, ''));
+
+    return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+  };
+
 
   $('#trans_table').dataTable( {
     "aoColumnDefs": [
       { "type": "satoshi", "targets": [1] },
+      { "type": "price", "targets": [4] },
       { "bSortable": false, "aTargets": [6, 7] }
     ] } );
   var oTable = $('#trans_table').dataTable();

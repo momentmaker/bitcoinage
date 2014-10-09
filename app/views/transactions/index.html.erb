@@ -1,4 +1,4 @@
-<div id="container" style="height: 400px; min-width: 310px"></div>
+<div id="chart" style="height: 400px; min-width: 310px"></div>
 
 <table id="trans_table" class="order-column stripe hover responsive" cellspacing="0" width="100%">
   <thead>
@@ -16,21 +16,41 @@
 
     <tfoot>
       <tr>
-        <th width="10%">Sum</th>
-        <th width="20%"><%= number_to_currency("#{@transactions.total_bitcoin}", unit: "B⃦", precision: 8) %></th>
-        <th width="10%"><%= number_to_currency("#{@transactions.total_dollar}") %></th>
+        <th width="10%">Buy Sum</th>
+        <th width="20%"><%= number_to_currency("#{@transactions.total_bitcoin_buy}", unit: "B⃦", precision: 8) %></th>
+        <th width="10%"></th>
         <th width="5%"></th>
-        <th width="15%">Total</th>
+        <th width="15%"><%= number_to_currency("#{@transactions.total_investment_buy}") %></th>
         <th width="50%"></th>
         <th width="5%"></th>
         <th width="5%"></th>
       </tr>
       <tr>
-        <th width="10%">Average</th>
-        <th width="20%"><%= number_to_currency("#{@transactions.avg_bitcoin}", unit: "B⃦", precision: 8) %></th>
-        <th width="10%"><%= number_to_currency("#{@transactions.avg_dollar}") %></th>
+        <th width="10%">Buy Average</th>
+        <th width="20%"><%= number_to_currency("#{@transactions.avg_bitcoin_buy}", unit: "B⃦", precision: 8) %></th>
+        <th width="10%"><%= number_to_currency("#{@transactions.avg_dollar_buy}") %></th>
         <th width="5%"></th>
-        <th width="15%">Total</th>
+        <th width="15%"><%= number_to_currency("#{@transactions.avg_investment_buy}") %></th>
+        <th width="50%"></th>
+        <th width="5%"></th>
+        <th width="5%"></th>
+      </tr>
+      <tr>
+        <th width="10%">Sell Sum</th>
+        <th width="20%"><%= number_to_currency("#{@transactions.total_bitcoin_sell}", unit: "B⃦", precision: 8) %></th>
+        <th width="10%"></th>
+        <th width="5%"></th>
+        <th width="15%"><%= number_to_currency("#{@transactions.total_investment_sell}") %></th>
+        <th width="50%"></th>
+        <th width="5%"></th>
+        <th width="5%"></th>
+      </tr>
+      <tr>
+        <th width="10%">Sell Average</th>
+        <th width="20%"><%= number_to_currency("#{@transactions.avg_bitcoin_sell}", unit: "B⃦", precision: 8) %></th>
+        <th width="10%"><%= number_to_currency("#{@transactions.avg_dollar_sell}") %></th>
+        <th width="5%"></th>
+        <th width="15%"><%= number_to_currency("#{@transactions.avg_investment_sell}") %></th>
         <th width="50%"></th>
         <th width="5%"></th>
         <th width="5%"></th>

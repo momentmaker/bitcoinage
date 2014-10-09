@@ -16,6 +16,8 @@ class Transaction < ActiveRecord::Base
   before_save do
     if type == "Sell"
       self.satoshi = -(self.satoshi) if self.satoshi > 0
+    else
+      self.satoshi = -(self.satoshi) if self.satoshi < 0
     end
   end
 
@@ -27,28 +29,12 @@ class Transaction < ActiveRecord::Base
     self.satoshi = value.to_f * SATOSHI_BITCOIN_FACTOR
   end
 
-  def self.total_satoshi
-    sum(:satoshi)
-  end
-
-  def self.avg_satoshi
-    average(:satoshi)
-  end
-
   def self.total_satoshi_buy
-    where('satoshi > ?', 0.0).sum(:satoshi)
+    where('satoshi > 0').sum(:satoshi)
   end
 
   def self.avg_satoshi_buy
-    average(:satoshi).where('satoshi > ?', 0.0)
-  end
-
-  def self.total_bitcoin
-    total_satoshi / SATOSHI_BITCOIN_FACTOR
-  end
-
-  def self.avg_bitcoin
-    avg_satoshi / SATOSHI_BITCOIN_FACTOR
+    where('satoshi > 0').average(:satoshi)
   end
 
   def self.total_bitcoin_buy
@@ -59,6 +45,38 @@ class Transaction < ActiveRecord::Base
     avg_satoshi_buy / SATOSHI_BITCOIN_FACTOR
   end
 
+  def self.total_satoshi_sell
+    where('satoshi < 0').sum(:satoshi)
+  end
+
+  def self.avg_satoshi_sell
+    where('satoshi < 0').average(:satoshi)
+  end
+
+  def self.total_bitcoin_sell
+    -total_satoshi_sell / SATOSHI_BITCOIN_FACTOR
+  end
+
+  def self.avg_bitcoin_sell
+    -avg_satoshi_sell / SATOSHI_BITCOIN_FACTOR
+  end
+
+  def self.avg_cent_buy
+    where('satoshi > 0').average(:price_cent)
+  end
+
+  def self.avg_dollar_buy
+    avg_cent_buy / 100
+  end
+
+  def self.avg_cent_sell
+    where('satoshi < 0').average(:price_cent)
+  end
+
+  def self.avg_dollar_sell
+    avg_cent_sell / 100
+  end
+
   def price_dollar
     price_cent.to_f / 100 if price_cent
   end
@@ -67,28 +85,42 @@ class Transaction < ActiveRecord::Base
     self.price_cent = value.to_f * 100
   end
 
-  def self.total_cent
-    sum(:price_cent)
-  end
-
-  def self.avg_cent
-    average(:price_cent)
-  end
-
-  def self.total_dollar
-    total_cent / 100
-  end
-
-  def self.avg_dollar
-    avg_cent / 100
-  end
-
   def fees
     fees_percentage.to_f / 100 if fees_percentage
   end
 
   def fees=(value)
     self.fees_percentage = value[0..-1].to_f * 100
+  end
+
+  def self.total_investment_buy
+    buys = where('satoshi > 0')
+    sum = 0
+    buys.each do |buy|
+      sum += buy.satoshi * buy.price_cent * (1 + buy.fees_percentage / 10000) / SATOSHI_BITCOIN_FACTOR
+    end
+    sum
+  end
+
+  def self.avg_investment_buy
+    sum = total_investment_buy
+    buys = where('satoshi > 0')
+    sum / buys.count
+  end
+
+  def self.total_investment_sell
+    sells = where('satoshi < 0')
+    sum = 0
+    sells.each do |sell|
+      sum += sell.satoshi * sell.price_cent * (1 + sell.fees_percentage / 10000) / SATOSHI_BITCOIN_FACTOR
+    end
+    -sum
+  end
+
+  def self.avg_investment_sell
+    -sum = total_investment_sell
+    sells = where('satoshi < 0')
+    sum / sells.count
   end
 
   def total_investment

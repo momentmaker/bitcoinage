@@ -21,28 +21,27 @@
         </li>
         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
         <li class="toggle-topbar menu-icon">
-          <a href="#"><span>Menu</span></a>
+          <a href="/"><span>Menu</span></a>
         </li>
       </ul>
       <section class="top-bar-section">
       <!-- Right Nav Section -->
       <ul class="right">
           <% if user_signed_in? %>
-            <li><%= image_tag current_user.image, size: "42x42" %></li>
+            <li><%= image_tag current_user.image, size: "45x45" %></li>
             <li class="divider"></li>
-            <li><%=link_to "@#{current_user.username}", "#{current_user.url}" %> </li>
+            <li><%=link_to "@#{current_user.username}", "#{current_user.url}", target: "_blank" %> </li>
             <li class="divider"></li>
             <li class="active"><%= link_to 'Sign Out', user_sign_out_path %></li>
           <% else %>
             <li class="active"><%= link_to 'Sign In', user_sign_in_path %></li>
           <% end %>
       </ul>
-      <!-- Left Nav Section -->
-      <!-- <ul class="left">
-        <li><a href="#">Left Nav Button</a></li>
-         </ul> -->
-       </section>
-     </nav>
+<!--       <ul class="left">
+  <li><%= link_to image_tag("bitcoin.png"), root_path %></li>
+</ul> -->
+      </section>
+    </nav>
 
     <% if flash.any? %>
       <div class="flash">

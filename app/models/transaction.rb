@@ -1,5 +1,7 @@
 class Transaction < ActiveRecord::Base
   SATOSHI_BITCOIN_FACTOR = 100_000_000.0
+  FEE_PERCENTAGES = ["0.1%", "0.2%", "0.25%", "0.3%", "0.5%", "0.75%", "1.0%", "1.25%", "1.5%", "2.0%"]
+  TYPE = ["Buy", "Sell"]
 
   belongs_to :user
 
@@ -18,6 +20,15 @@ class Transaction < ActiveRecord::Base
       self.satoshi = -(self.satoshi) if self.satoshi > 0
     else
       self.satoshi = -(self.satoshi) if self.satoshi < 0
+    end
+  end
+
+  def find_type
+    # binding.pry
+    if satoshi > 0
+      return "Buy"
+    else
+      return "Sell"
     end
   end
 
@@ -91,6 +102,11 @@ class Transaction < ActiveRecord::Base
 
   def fees=(value)
     self.fees_percentage = value[0..-1].to_f * 100
+  end
+
+  def find_fee_percentage
+    fee = fees_percentage.to_f / 100
+    fee.to_s + "%"
   end
 
   def self.total_investment_buy

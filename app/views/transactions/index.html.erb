@@ -3,57 +3,62 @@
 <table id="trans_table" class="order-column stripe hover responsive" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th width="10%">Date</th>
-      <th width="15%">Bitcoins</th>
-      <th width="10%">Price</th>
-      <th width="5%">Fees</th>
-      <th width="13%">Total</th>
-      <th width="37%">Wallet</th>
-      <th width="5%"><i class="fa fa-pencil-square-o"></i></th>
-      <th width="5%"><i class="fa fa-eraser"></i></th>
+      <th width="80">Date</th>
+      <th width="120">Bitcoins</th>
+      <th width="70">Price</th>
+      <th width="20">Fees</th>
+      <th width="100">Total</th>
+      <th width="20"><%= fa_icon "line-chart lg" %></th>
+      <th width="20"><%= fa_icon "info-circle lg" %></i></th>
+      <th width="20"><%= fa_icon "pencil-square-o lg" %></th>
+      <th width="20"><%= fa_icon "eraser lg" %></th>
     </tr>
   </thead>
 
     <tfoot>
       <tr>
-        <th width="10%">Buy Sum</th>
-        <th width="20%"><%= number_to_currency("#{@transactions.total_bitcoin_buy}", unit: "B⃦", precision: 8) %></th>
-        <th width="10%"></th>
-        <th width="5%"></th>
-        <th width="15%"><%= number_to_currency("#{@transactions.total_investment_buy}") %></th>
-        <th width="50%"></th>
-        <th width="5%"></th>
-        <th width="5%"></th>
+        <th width="80">Buy Sum</th>
+        <th width="120"><%= number_to_currency("#{@transactions.total_bitcoin_buy}", unit: "B⃦", precision: 8) %></th>
+        <th width="70"></th>
+        <th width="20"></th>
+        <th width="100"><%= number_to_currency("#{@transactions.total_investment_buy}") %></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
       </tr>
       <tr>
-        <th width="10%">Buy Average</th>
-        <th width="20%"><%= number_to_currency("#{@transactions.avg_bitcoin_buy}", unit: "B⃦", precision: 8) %></th>
-        <th width="10%"><%= number_to_currency("#{@transactions.avg_dollar_buy}") %></th>
-        <th width="5%"></th>
-        <th width="15%"><%= number_to_currency("#{@transactions.avg_investment_buy}") %></th>
-        <th width="50%"></th>
-        <th width="5%"></th>
-        <th width="5%"></th>
+        <th width="80">Buy Average</th>
+        <th width="120"><%= number_to_currency("#{@transactions.avg_bitcoin_buy}", unit: "B⃦", precision: 8) %></th>
+        <th width="70"><%= number_to_currency("#{@transactions.avg_dollar_buy}") %></th>
+        <th width="20"></th>
+        <th width="100"><%= number_to_currency("#{@transactions.avg_investment_buy}") %></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
       </tr>
       <tr>
-        <th width="10%">Sell Sum</th>
-        <th width="20%"><%= number_to_currency("#{@transactions.total_bitcoin_sell}", unit: "B⃦", precision: 8) %></th>
-        <th width="10%"></th>
-        <th width="5%"></th>
-        <th width="15%"><%= number_to_currency("#{@transactions.total_investment_sell}") %></th>
-        <th width="50%"></th>
-        <th width="5%"></th>
-        <th width="5%"></th>
+        <th width="80">Sell Sum</th>
+        <th width="120"><%= number_to_currency("#{@transactions.total_bitcoin_sell}", unit: "B⃦", precision: 8) %></th>
+        <th width="70"></th>
+        <th width="20"></th>
+        <th width="100"><%= number_to_currency("#{@transactions.total_investment_sell}") %></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
       </tr>
       <tr>
-        <th width="10%">Sell Average</th>
-        <th width="20%"><%= number_to_currency("#{@transactions.avg_bitcoin_sell}", unit: "B⃦", precision: 8) %></th>
-        <th width="10%"><%= number_to_currency("#{@transactions.avg_dollar_sell}") %></th>
-        <th width="5%"></th>
-        <th width="15%"><%= number_to_currency("#{@transactions.avg_investment_sell}") %></th>
-        <th width="50%"></th>
-        <th width="5%"></th>
-        <th width="5%"></th>
+        <th width="80">Sell Average</th>
+        <th width="120"><%= number_to_currency("#{@transactions.avg_bitcoin_sell}", unit: "B⃦", precision: 8) %></th>
+        <th width="70"><%= number_to_currency("#{@transactions.avg_dollar_sell}") %></th>
+        <th width="20"></th>
+        <th width="100"><%= number_to_currency("#{@transactions.avg_investment_sell}") %></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
+        <th width="20"></th>
       </tr>
     </tfoot>
   <tbody>
@@ -61,12 +66,12 @@
         <tr>
           <td><%= transaction.date %></td>
           <td>
-            <% if transaction.bitcoin < 0 %>
-              <div class="bitcoins-sell">
+            <% if transaction.buy? %>
+              <div class="bitcoins-buy">
                 <%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
               </div>
             <% else %>
-              <div class="bitcoins-buy">
+              <div class="bitcoins-sell">
                 <%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
               </div>
             <% end %>
@@ -74,7 +79,18 @@
           <td><%= number_to_currency(transaction.price_dollar) %></td>
           <td><%= transaction.fees %>%</td>
           <td><%= number_to_currency(transaction.total_investment, negative_format: "(%u%n)") %></td>
-          <td><%= transaction.wallet %></td>
+          <td>
+            <% if transaction.within?(30) %>
+              <% if transaction.beat_avg?(30) %>
+                <%= fa_icon "thumbs-up lg", class: "bitcoins-buy" %>
+              <% else %>
+                <%= fa_icon "thumbs-down lg", class: "bitcoins-sell" %>
+              <% end %>
+            <% else %>
+              <%= fa_icon "meh-o lg" %>
+            <% end %>
+          </td>
+          <td><%= link_to 'More', transaction_path(transaction) %></td>
           <td width="5%"><%= link_to "Edit", edit_transaction_path(transaction) %></td>
           <td width="5%"><%= link_to 'Delete', transaction_path(transaction), method: :delete, data: { confirm: "Are you sure?" } %></td>
         </tr>

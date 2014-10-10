@@ -2,6 +2,7 @@ class Transaction < ActiveRecord::Base
   SATOSHI_BITCOIN_FACTOR = 100_000_000.0
   FEE_PERCENTAGES = ["0.1%", "0.2%", "0.25%", "0.3%", "0.5%", "0.75%", "1.0%", "1.25%", "1.5%", "2.0%"]
   TYPE = ["Buy", "Sell"]
+  ONE_DAY_UNIX = 86400000
 
   belongs_to :user
 
@@ -26,13 +27,17 @@ class Transaction < ActiveRecord::Base
   def find_type
     if satoshi != nil
       if satoshi > 0
-        return "Buy"
+        "Buy"
       elsif satoshi < 0
-        return "Sell"
+        "Sell"
       else
-        return nil
+        nil
       end
     end
+  end
+
+  def buy?
+    satoshi > 0
   end
 
   def bitcoin
@@ -116,7 +121,7 @@ class Transaction < ActiveRecord::Base
     buys = where('satoshi > 0')
     sum = 0
     buys.each do |buy|
-      sum += buy.satoshi * buy.price_cent * (1 + buy.fees_percentage / 10000) / SATOSHI_BITCOIN_FACTOR
+      sum += buy.satoshi * buy.price_cent / 100 * (1 + buy.fees_percentage / 10000) / SATOSHI_BITCOIN_FACTOR
     end
     sum
   end
@@ -131,7 +136,7 @@ class Transaction < ActiveRecord::Base
     sells = where('satoshi < 0')
     sum = 0
     sells.each do |sell|
-      sum += sell.satoshi * sell.price_cent * (1 + sell.fees_percentage / 10000) / SATOSHI_BITCOIN_FACTOR
+      sum += sell.satoshi * sell.price_cent / 100 * (1 + sell.fees_percentage / 10000) / SATOSHI_BITCOIN_FACTOR
     end
     -sum
   end
@@ -144,6 +149,53 @@ class Transaction < ActiveRecord::Base
 
   def total_investment
     fees_percentage = 1 + self.fees / 100
-    (self.price_cent * self.satoshi * fees_percentage) / SATOSHI_BITCOIN_FACTOR
+    (self.price_cent / 100 * self.satoshi * fees_percentage) / SATOSHI_BITCOIN_FACTOR
+  end
+
+  def avg_price_per(days)
+    points = []
+    date_limit = PricePoint.unix_time(PricePoint.get_previous_date)
+    trans_date = PricePoint.unix_time(self.date.to_s)
+    end_date = trans_date + ONE_DAY_UNIX * days
+
+    days = PricePoint.where('date > ? AND date <= ?', trans_date, end_date)
+    price_sum = 0
+    days.each do |day|
+      price_sum += day.price
+    end
+    avg = price_sum / days.count
+  end
+
+  def within?(days)
+    # date_limit = PricePoint.unix_time(PricePoint.get_previous_date)
+    date_limit = PricePoint.last.date
+    trans_date = PricePoint.unix_time(self.date.to_s)
+    end_date = trans_date + ONE_DAY_UNIX * days
+
+    if end_date > date_limit
+      false
+    else
+      true
+    end
+  end
+
+  def compare(days)
+    (price_dollar - avg_price_per(days)).abs
+  end
+
+  def beat_avg?(days)
+    if buy?
+      if price_dollar < avg_price_per(days)
+        true
+      else
+        false
+      end
+    else
+      if price_dollar > avg_price_per(days)
+        true
+      else
+        false
+      end
+    end
   end
 end

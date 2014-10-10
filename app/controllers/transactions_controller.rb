@@ -7,6 +7,8 @@ class TransactionsController < ApplicationController
   end
 
   def show
+    @chart_data = get_chart_data
+    gon.chart_data = @chart_data
     @transaction = Transaction.find(params[:id])
   end
 
@@ -17,7 +19,7 @@ class TransactionsController < ApplicationController
   def create
     @transaction = current_user.transactions.build(transaction_params)
     if @transaction.save
-      redirect_to transactions_path, notice: 'Your transaction has been submitted.'
+      redirect_to transaction_path(@transaction), notice: 'Your transaction has been submitted.'
     else
       render 'new'
     end

@@ -1,3 +1,5 @@
+<div id="chart" style="height: 400px; min-width: 310px"></div>
+
 <h1>Transaction</h1>
 
 <h3><%= @transaction.date %></h3>
@@ -17,3 +19,19 @@
 <h3><%= number_to_currency(@transaction.total_investment, negative_format: "(%u%n)") %></h3>
 <h3><%= @transaction.wallet %></h3>
 <h3><%= @transaction.trans_hash %></h3>
+<h3>
+  Average 30 Day Price:
+  <% if @transaction.within?(30) %>
+    <%= number_to_currency(@transaction.avg_price_per(30)) %>
+  <% else %>
+    Not enough data yet!
+  <% end %>
+</h3>
+<% if @transaction.within?(30) %>
+  <%= number_to_currency(@transaction.compare(30)) %>
+  <% if @transaction.beat_avg?(30) %>
+    <%= fa_icon "thumbs-up", class: "bitcoins-buy" %>
+  <% else %>
+    <%= fa_icon "thumbs-down", class: "bitcoins-sell" %>
+  <% end %>
+<% end %>

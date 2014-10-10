@@ -79,7 +79,7 @@ $(document).ready( function() {
     "aoColumnDefs": [
       { "type": "satoshi", "targets": [1] },
       { "type": "price", "targets": [4] },
-      { "bSortable": false, "aTargets": [6, 7] }
+      { "bSortable": false, "aTargets": [5, 6, 7, 8] }
     ] } );
   var oTable = $('#trans_table').dataTable();
 

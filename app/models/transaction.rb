@@ -185,17 +185,9 @@ class Transaction < ActiveRecord::Base
 
   def beat_avg?(days)
     if buy?
-      if price_dollar < avg_price_per(days)
-        true
-      else
-        false
-      end
+      price_dollar < avg_price_per(days) ? true : false
     else
-      if price_dollar > avg_price_per(days)
-        true
-      else
-        false
-      end
+      price_dollar > avg_price_per(days) ? true : false
     end
   end
 end

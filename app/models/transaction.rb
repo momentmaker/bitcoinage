@@ -167,7 +167,6 @@ class Transaction < ActiveRecord::Base
   end
 
   def within?(days)
-    # date_limit = PricePoint.unix_time(PricePoint.get_previous_date)
     date_limit = PricePoint.last.date
     trans_date = PricePoint.unix_time(self.date.to_s)
     end_date = trans_date + ONE_DAY_UNIX * days
@@ -176,6 +175,16 @@ class Transaction < ActiveRecord::Base
       false
     else
       true
+    end
+  end
+
+  def get_to_date_days
+    date_limit = PricePoint.last.date
+    trans_date = PricePoint.unix_time(self.date.to_s)
+    if (date_limit - trans_date) / ONE_DAY_UNIX < 0
+      0
+    else
+      (date_limit - trans_date) / ONE_DAY_UNIX
     end
   end
 

@@ -40,26 +40,26 @@
   </ul>
   <div class="tabs-content">
     <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
-      <% if @transaction.within?(30) %>
+      <% if @transaction.within?(@transaction.get_to_date_days) %>
         <div class="tab-left-element">
           <span class="warning label">Average Price:</span><br>
-          <%= number_to_currency(@transaction.avg_price_per(30)) %>
+          <%= number_to_currency(@transaction.avg_price_per(@transaction.get_to_date_days)) %>
         </div>
         <div class="tab-middle-element">
           <span class="warning label">Price Difference:</span><br>
-          <%= number_to_currency(@transaction.compare(30)) %>
+          <%= number_to_currency(@transaction.compare(@transaction.get_to_date_days)) %>
         </div>
         <div class="tab-right-element">
-          <% if @transaction.beat_avg?(30) %>
+          <% if @transaction.beat_avg?(@transaction.get_to_date_days) %>
             <span class="warning label">Over Performed:</span><br>
           <% else %>
             <span class="warning label">Under Performed:</span><br>
           <% end %>
-          <%= number_to_percentage(@transaction.performance_pct(30), precision: 2) %>
+          <%= number_to_percentage(@transaction.performance_pct(@transaction.get_to_date_days), precision: 2) %>
         </div>
         <div class="tab-bottom-element">
           <h2>Verdict:</h2>
-          <% if @transaction.beat_avg?(30) %>
+          <% if @transaction.beat_avg?(@transaction.get_to_date_days) %>
             <% if @transaction.buy? %>
               <span>Good Buy</span>
             <% else %>

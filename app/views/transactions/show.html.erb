@@ -19,14 +19,7 @@
 <h3><%= number_to_currency(@transaction.total_investment, negative_format: "(%u%n)") %></h3>
 <h3><%= @transaction.wallet %></h3>
 <h3><%= @transaction.trans_hash %></h3>
-<h3>
-  Average 30 Day Price:
-  <% if @transaction.within?(30) %>
-    <%= number_to_currency(@transaction.avg_price_per(30)) %>
-  <% else %>
-    Not enough data yet!
-  <% end %>
-</h3>
+
 <div class="tabs-wrapper">
   <ul class="tabs" data-tab role="tablist">
     <li class="tab-title active" role="presentational" >
@@ -47,28 +40,219 @@
   </ul>
   <div class="tabs-content">
     <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
-      <h2>First panel content goes here...</h2>
-    </section>
-    <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
-      <h2 class="text-center">
-        <% if @transaction.within?(30) %>
+      <% if @transaction.within?(30) %>
+        <div class="tab-left-element">
+          <span class="warning label">Average Price:</span><br>
+          <%= number_to_currency(@transaction.avg_price_per(30)) %>
+        </div>
+        <div class="tab-middle-element">
+          <span class="warning label">Price Difference:</span><br>
           <%= number_to_currency(@transaction.compare(30)) %>
+        </div>
+        <div class="tab-right-element">
           <% if @transaction.beat_avg?(30) %>
+            <span class="warning label">Over Performed:</span><br>
+          <% else %>
+            <span class="warning label">Under Performed:</span><br>
+          <% end %>
+          <%= number_to_percentage(@transaction.performance_pct(30), precision: 2) %>
+        </div>
+        <div class="tab-bottom-element">
+          <h2>Verdict:</h2>
+          <% if @transaction.beat_avg?(30) %>
+            <% if @transaction.buy? %>
+              <span>Good Buy</span>
+            <% else %>
+              <span>Good Sell</span>
+            <% end %>
             <%= fa_icon "thumbs-up", class: "bitcoins-buy" %>
           <% else %>
+            <% if @transaction.buy? %>
+              <span>Poor Buy</span>
+            <% else %>
+              <span>Poor Sell</span>
+            <% end %>
             <%= fa_icon "thumbs-down", class: "bitcoins-sell" %>
           <% end %>
+        </div>
+        <% else %>
+        <h2 class="text-center">
+          Not Enough Data!<br>
+          <%= fa_icon "meh-o 3x" %>
+        </h2>
+      <% end %>
+    </section>
+    <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+        <% if @transaction.within?(30) %>
+          <div class="tab-left-element">
+            <span class="warning label">Average Price:</span><br>
+            <%= number_to_currency(@transaction.avg_price_per(30)) %>
+          </div>
+          <div class="tab-middle-element">
+            <span class="warning label">Price Difference:</span><br>
+            <%= number_to_currency(@transaction.compare(30)) %>
+          </div>
+          <div class="tab-right-element">
+            <% if @transaction.beat_avg?(30) %>
+              <span class="warning label">Over Performed:</span><br>
+            <% else %>
+              <span class="warning label">Under Performed:</span><br>
+            <% end %>
+            <%= number_to_percentage(@transaction.performance_pct(30), precision: 2) %>
+          </div>
+          <div class="tab-bottom-element">
+            <h2>Verdict:</h2>
+            <% if @transaction.beat_avg?(30) %>
+              <% if @transaction.buy? %>
+                <span>Good Buy</span>
+              <% else %>
+                <span>Good Sell</span>
+              <% end %>
+              <%= fa_icon "thumbs-up", class: "bitcoins-buy" %>
+            <% else %>
+              <% if @transaction.buy? %>
+                <span>Poor Buy</span>
+              <% else %>
+                <span>Poor Sell</span>
+              <% end %>
+              <%= fa_icon "thumbs-down", class: "bitcoins-sell" %>
+            <% end %>
+          </div>
+          <% else %>
+          <h2 class="text-center">
+            Not Enough Data!<br>
+            <%= fa_icon "meh-o 3x" %>
+          </h2>
         <% end %>
-      </h2>
     </section>
     <section role="tabpanel" aria-hidden="true" class="content" id="panel2-3">
-      <h2>Third panel content goes here...</h2>
+      <% if @transaction.within?(90) %>
+        <div class="tab-left-element">
+          <span class="warning label">Average Price:</span><br>
+          <%= number_to_currency(@transaction.avg_price_per(90)) %>
+        </div>
+        <div class="tab-middle-element">
+          <span class="warning label">Price Difference:</span><br>
+          <%= number_to_currency(@transaction.compare(90)) %>
+        </div>
+        <div class="tab-right-element">
+          <% if @transaction.beat_avg?(90) %>
+            <span class="warning label">Over Performed:</span><br>
+          <% else %>
+            <span class="warning label">Under Performed:</span><br>
+          <% end %>
+          <%= number_to_percentage(@transaction.performance_pct(90), precision: 2) %>
+        </div>
+        <div class="tab-bottom-element">
+          <h2>Verdict:</h2>
+          <% if @transaction.beat_avg?(90) %>
+            <% if @transaction.buy? %>
+              <span>Good Buy</span>
+            <% else %>
+              <span>Good Sell</span>
+            <% end %>
+            <%= fa_icon "thumbs-up", class: "bitcoins-buy" %>
+          <% else %>
+            <% if @transaction.buy? %>
+              <span>Poor Buy</span>
+            <% else %>
+              <span>Poor Sell</span>
+            <% end %>
+            <%= fa_icon "thumbs-down", class: "bitcoins-sell" %>
+          <% end %>
+        </div>
+        <% else %>
+        <h2 class="text-center">
+          Not Enough Data!<br>
+          <%= fa_icon "meh-o 3x" %>
+        </h2>
+      <% end %>
     </section>
     <section role="tabpanel" aria-hidden="true" class="content" id="panel2-4">
-      <h2>Fourth panel content goes here...</h2>
+      <% if @transaction.within?(180) %>
+        <div class="tab-left-element">
+          <span class="warning label">Average Price:</span><br>
+          <%= number_to_currency(@transaction.avg_price_per(180)) %>
+        </div>
+        <div class="tab-middle-element">
+          <span class="warning label">Price Difference:</span><br>
+          <%= number_to_currency(@transaction.compare(180)) %>
+        </div>
+        <div class="tab-right-element">
+          <% if @transaction.beat_avg?(180) %>
+            <span class="warning label">Over Performed:</span><br>
+          <% else %>
+            <span class="warning label">Under Performed:</span><br>
+          <% end %>
+          <%= number_to_percentage(@transaction.performance_pct(180), precision: 2) %>
+        </div>
+        <div class="tab-bottom-element">
+          <h2>Verdict:</h2>
+          <% if @transaction.beat_avg?(180) %>
+            <% if @transaction.buy? %>
+              <span>Good Buy</span>
+            <% else %>
+              <span>Good Sell</span>
+            <% end %>
+            <%= fa_icon "thumbs-up", class: "bitcoins-buy" %>
+          <% else %>
+            <% if @transaction.buy? %>
+              <span>Poor Buy</span>
+            <% else %>
+              <span>Poor Sell</span>
+            <% end %>
+            <%= fa_icon "thumbs-down", class: "bitcoins-sell" %>
+          <% end %>
+        </div>
+        <% else %>
+        <h2 class="text-center">
+          Not Enough Data!<br>
+          <%= fa_icon "meh-o 3x" %>
+        </h2>
+      <% end %>
     </section>
     <section role="tabpanel" aria-hidden="true" class="content" id="panel2-5">
-      <h2>Fifth panel content goes here...</h2>
+      <% if @transaction.within?(365) %>
+        <div class="tab-left-element">
+          <span class="warning label">Average Price:</span><br>
+          <%= number_to_currency(@transaction.avg_price_per(365)) %>
+        </div>
+        <div class="tab-middle-element">
+          <span class="warning label">Price Difference:</span><br>
+          <%= number_to_currency(@transaction.compare(365)) %>
+        </div>
+        <div class="tab-right-element">
+          <% if @transaction.beat_avg?(365) %>
+            <span class="warning label">Over Performed:</span><br>
+          <% else %>
+            <span class="warning label">Under Performed:</span><br>
+          <% end %>
+          <%= number_to_percentage(@transaction.performance_pct(365), precision: 2) %>
+        </div>
+        <div class="tab-bottom-element">
+          <h2>Verdict:</h2>
+          <% if @transaction.beat_avg?(365) %>
+            <% if @transaction.buy? %>
+              <span>Good Buy</span>
+            <% else %>
+              <span>Good Sell</span>
+            <% end %>
+            <%= fa_icon "thumbs-up", class: "bitcoins-buy" %>
+          <% else %>
+            <% if @transaction.buy? %>
+              <span>Poor Buy</span>
+            <% else %>
+              <span>Poor Sell</span>
+            <% end %>
+            <%= fa_icon "thumbs-down", class: "bitcoins-sell" %>
+          <% end %>
+        </div>
+        <% else %>
+        <h2 class="text-center">
+          Not Enough Data!<br>
+          <%= fa_icon "meh-o 3x" %>
+        </h2>
+      <% end %>
     </section>
   </div>
 </div>

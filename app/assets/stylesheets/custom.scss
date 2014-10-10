@@ -1,11 +1,42 @@
-.form-wrapper{
+.form-wrapper {
   width: 50%;
   margin-left: 30%;
 }
 
-.tabs-wrapper{
+.tabs-wrapper {
   width: 75%;
-  margin-left: 15%;
+  margin-left: 18%;
+  padding-right: 11%;
+}
+
+.tab-left-element {
+  float: left;
+  overflow: auto;
+  text-align: center;
+  font-size: 1em;
+  padding-left: 2em;
+}
+
+.tab-middle-element {
+  float: left;
+  overflow: auto;
+  text-align: center;
+  font-size: 1em;
+  padding-left: 8.5em;
+}
+
+.tab-right-element {
+  float: right;
+  text-align: center;
+  font-size: 1em;
+  padding-right: 2em;
+}
+
+.tab-bottom-element {
+  position: relative;
+  text-align: center;
+  padding-top: 2em;
+  font-size: 2em;
 }
 
 .flash {
@@ -30,4 +61,30 @@ table.dataTable th,
 
 .bitcoins-sell {
   color: #8A0707;
+}
+
+.notice, .alert-box{
+  padding: 8px 35px 8px 14px;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 1px solid #fbeed5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.notice{
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #468847;
+}
+
+.alert-box{
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  color: #b94a48;
 }

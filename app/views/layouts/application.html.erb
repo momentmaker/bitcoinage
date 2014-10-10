@@ -40,12 +40,12 @@
       </section>
     </nav>
 
-    <% if flash.any? %>
-      <div class="flash">
-        <div class="flash-container">
-          <%= flash[:notice] %>
-        </div>
-      </div>
+    <% if flash[:notice] %>
+      <p class="notice"><%= flash[:notice] %></p>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <p class="alert-box"><%= flash[:alert] %></p>
     <% end %>
 
     <div class="row">

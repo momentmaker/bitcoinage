@@ -183,6 +183,10 @@ class Transaction < ActiveRecord::Base
     (price_dollar - avg_price_per(days)).abs
   end
 
+  def performance_pct(days)
+    (avg_price_per(days) / price_dollar - 1).abs * 100
+  end
+
   def beat_avg?(days)
     if buy?
       price_dollar < avg_price_per(days) ? true : false

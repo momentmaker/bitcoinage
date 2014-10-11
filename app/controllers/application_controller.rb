@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?, :current_user, :same_user?, :authenticate!, :get_chart_data
 
   protected
+
+  ONE_DAY_UNIX = 86400000
+
   def user_signed_in?
     !current_user.nil?
   end
@@ -30,9 +33,22 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_chart_data
+  def all_chart_data
     data = []
     PricePoint.all.each do |e|
+      data << [e.date, e.price]
+    end
+    data
+  end
+
+  def select_chart_data(transaction)
+    data = []
+    start_date = PricePoint.unix_time(transaction.date.to_s)
+    end_date = PricePoint.last.date
+
+    before_trans_date = start_date - ONE_DAY_UNIX * 30
+
+    PricePoint.where('date >= ? AND date <= ?', before_trans_date, end_date).each do |e|
       data << [e.date, e.price]
     end
     data

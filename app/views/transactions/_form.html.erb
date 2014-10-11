@@ -1,4 +1,5 @@
 <%= simple_form_for @transaction do |f| %>
+  <%= f.error_notification %>
   <%= f.input :type, collection: Transaction::TYPE, as: :radio_buttons, checked: @transaction.find_type, required: true %>
   <%= f.input :bitcoin, placeholder: 'B⃦', label: 'Bitcoins' %>
   <%= f.input :price_dollar, placeholder: '$', label: 'Price' %>

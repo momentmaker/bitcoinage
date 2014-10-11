@@ -2,14 +2,14 @@ class TransactionsController < ApplicationController
   before_action :authenticate!, except: [:index]
   def index
     @transactions = Transaction.order(updated_at: :desc)
-    @chart_data = get_chart_data
+    @chart_data = all_chart_data
     gon.chart_data = @chart_data
   end
 
   def show
-    @chart_data = get_chart_data
-    gon.chart_data = @chart_data
     @transaction = Transaction.find(params[:id])
+    @chart_data = select_chart_data(@transaction)
+    gon.chart_data = @chart_data
   end
 
   def new

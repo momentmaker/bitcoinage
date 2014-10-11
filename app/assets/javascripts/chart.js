@@ -15,6 +15,17 @@ $(function () {
             text: 'Source: Coindesk.com'
         },
 
+        yAxis: {
+            title: {
+                text: 'USD'
+            },
+            labels: {
+                formatter: function () {
+                    return '$' + this.value;
+                }
+            }
+        },
+
         plotOptions: {
             series: {
                 marker: {

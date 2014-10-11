@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
     data = []
     start_date = PricePoint.unix_time(transaction.date.to_s)
     end_date = PricePoint.last.date
-
+    days = end_date / ONE_DAY_UNIX - start_date / ONE_DAY_UNIX
     before_trans_date = start_date - ONE_DAY_UNIX * 30
 
     PricePoint.where('date >= ? AND date <= ?', before_trans_date, end_date).each do |e|

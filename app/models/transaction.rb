@@ -4,7 +4,7 @@ class Transaction < ActiveRecord::Base
   TYPE = ["Buy", "Sell"]
   ONE_DAY_UNIX = 86400000
 
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
 
   validates :type, presence: true
   validates :satoshi, presence: true, numericality: true
@@ -61,7 +61,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.avg_bitcoin_buy
-    avg_satoshi_buy / SATOSHI_BITCOIN_FACTOR
+    avg_satoshi_buy != nil ? -avg_satoshi_buy / SATOSHI_BITCOIN_FACTOR : nil
   end
 
   def self.total_satoshi_sell
@@ -77,7 +77,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.avg_bitcoin_sell
-    -avg_satoshi_sell / SATOSHI_BITCOIN_FACTOR
+    avg_satoshi_sell != nil ? -avg_satoshi_sell / SATOSHI_BITCOIN_FACTOR : nil
   end
 
   def self.avg_cent_buy
@@ -85,7 +85,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.avg_dollar_buy
-    avg_cent_buy / 100
+    avg_cent_buy != nil ? avg_cent_buy / 100 : nil
   end
 
   def self.avg_cent_sell
@@ -93,7 +93,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.avg_dollar_sell
-    avg_cent_sell / 100
+    avg_cent_sell != nil ? avg_cent_sell / 100 : nil
   end
 
   def price_dollar
@@ -127,9 +127,13 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.avg_investment_buy
-    sum = total_investment_buy
-    buys = where('satoshi > 0')
-    sum / buys.count
+    if total_investment_buy != 0
+      sum = total_investment_buy
+      buys = where('satoshi > 0')
+      sum / buys.count
+    else
+      nil
+    end
   end
 
   def self.total_investment_sell
@@ -142,9 +146,13 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.avg_investment_sell
-    -sum = total_investment_sell
-    sells = where('satoshi < 0')
-    sum / sells.count
+    if total_investment_sell != 0
+      -sum = total_investment_sell
+      sells = where('satoshi < 0')
+      sum / sells.count
+    else
+      nil
+    end
   end
 
   def total_investment

@@ -1,15 +1,19 @@
 class TransactionsController < ApplicationController
-  before_action :authenticate!, except: [:index]
+  before_action :authenticate!
   def index
-    @transactions = Transaction.order(updated_at: :desc)
+    @transactions = Transaction.where(user_id: current_user.id)
     @chart_data = all_chart_data
     gon.chart_data = @chart_data
   end
 
   def show
     @transaction = Transaction.find(params[:id])
-    @chart_data = select_chart_data(@transaction)
-    gon.chart_data = @chart_data
+    if same_user?(@transaction)
+      @chart_data = select_chart_data(@transaction)
+      gon.chart_data = @chart_data
+    else
+      redirect_to root_path, alert: 'This transaction is not yours!'
+    end
   end
 
   def new

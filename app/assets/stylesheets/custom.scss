@@ -23,6 +23,10 @@
   height: 100%;
 }
 
+.float-right {
+  float: right;
+}
+
 .form-wrapper {
   width: 50%;
   margin-left: 30%;
@@ -88,11 +92,11 @@ table.dataTable th,
   color: #8A0707;
 }
 
-.notice, .alert-box p {
+.notice, .alert p {
   margin-bottom: 0;
 }
 
-.notice, .alert-box {
+.notice, .alert {
   padding: 8px 35px 8px 14px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   border: 1px solid #fbeed5;
@@ -111,7 +115,7 @@ table.dataTable th,
   color: #468847;
 }
 
-.alert-box {
+.alert {
   background-color: #f2dede;
   border-color: #eed3d7;
   color: #b94a48;
@@ -162,7 +166,7 @@ a {
 	  left: 100%;
 	  position: absolute;
 	  height: 100%;
-	  border-left: 1px solid #f89d2f;
+	  border-left: 1px solid white;
 	  z-index: 1000;
 	  @include opacity( 1 );
 

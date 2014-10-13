@@ -1,18 +1,18 @@
 $(function () {
-    // Create the chart
     $('#chart').highcharts('StockChart', {
-
         rangeSelector: {
             selected: 1,
             inputEnabled: $('#chart').width() > 480
         },
 
         title: {
-            text: 'Bitcoin Price'
+            text: 'Bitcoin Price',
+            style: {fontSize: "24px"}
         },
 
         subtitle: {
-            text: 'Source: Coindesk.com'
+            text: 'Source: Coindesk.com',
+            style: {fontSize: "10px"}
         },
 
         yAxis: {
@@ -26,18 +26,13 @@ $(function () {
             }
         },
 
-        plotOptions: {
-            series: {
-                marker: {
-                    enabled: true
-                }
-            }
-        },
-
         series: [{
             id: 'BITCOIN',
             name: 'USD to BTC',
             color: '#f89d2f',
+            marker: {
+              symbol: 'url(http://i.imgur.com/380q6kj.png)'
+            },
             data: gon.chart_data,
             tooltip: {
                 valueDecimals: 2

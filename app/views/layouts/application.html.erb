@@ -14,31 +14,31 @@
   </head>
 
   <body>
-    <nav class="top-bar" data-topbar role="navigation">
-      <ul class="title-area">
-        <li class="name">
-          <%= link_to image_tag('bitcoinage-logo.png'), root_path %>
-        </li>
-        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-        <li class="toggle-topbar menu-icon">
-          <a href="/"><span>Menu</span></a>
-        </li>
-      </ul>
-      <section class="top-bar-section">
-      <!-- Right Nav Section -->
-      <ul class="right">
-          <% if user_signed_in? %>
-            <li><%= image_tag current_user.image, size: "50x50" %></li>
-            <li class="divider"></li>
-            <li><%=link_to "@#{current_user.username}", "#{current_user.url}", target: "_blank" %> </li>
-            <li class="divider"></li>
-            <li class="active"><%= link_to 'Sign Out', user_sign_out_path %></li>
-          <% else %>
-            <li class="active"><%= link_to 'Sign In', user_sign_in_path %></li>
-          <% end %>
-      </ul>
-      </section>
-    </nav>
+    <div class="contain-to-grid">
+      <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+          <li class="name">
+            <%= link_to image_tag('bitcoinage-logo.png'), root_path %>
+          </li>
+          <li class="toggle-topbar menu-icon">
+            <a href="/"><span>Menu</span></a>
+          </li>
+        </ul>
+        <section class="top-bar-section">
+        <ul class="right">
+            <% if user_signed_in? %>
+              <li><%= image_tag current_user.image, size: "50x50" %></li>
+              <li class="divider"></li>
+              <li><%=link_to "@#{current_user.username}", "#{current_user.url}", target: "_blank" %> </li>
+              <li class="divider"></li>
+              <li class="active"><%= link_to 'Sign Out', user_sign_out_path %></li>
+            <% else %>
+              <li class="active"><%= link_to 'Sign In', user_sign_in_path %></li>
+            <% end %>
+        </ul>
+        </section>
+      </nav>
+    </div>
 
     <% if flash[:notice] %>
       <p class="notice"><%= flash[:notice] %></p>

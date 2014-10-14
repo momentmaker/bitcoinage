@@ -18,10 +18,14 @@
     <h3>Price: <%= number_to_currency(@transaction.price_dollar) %></h3>
     <h3>Fees: <%= @transaction.fees %>%</h3>
     <h3>Total: <%= number_to_currency(@transaction.total_investment, negative_format: "(%u%n)") %></h3>
-    <h3>Wallet:</h3>
-    <p><%= @transaction.wallet %></p>
-    <h3>Hash:</h3>
-    <p><%= @transaction.trans_hash %></p>
+    <% if @transaction.wallet != "" %>
+      <h3>Wallet:</h3>
+      <p><%= @transaction.wallet %></p>
+    <% end %>
+    <% if @transaction.trans_hash != "" %>
+      <h3>Hash:</h3>
+      <p><%= @transaction.trans_hash %></p>
+    <% end %>
   </div>
 </div>
 
@@ -264,6 +268,6 @@
 
 <div class="text-center">
   <%= link_to 'View All Transactions', transactions_path, class: "button small secondary radius" %>
-  <%= link_to 'Delete This Transaction', transaction_path(@transaction), method: :delete, data: { confirm: "Please confirm you want to delete this transaction." }, class: "button small alert radius" %>
-
+  <%= link_to "Edit This Transaction", edit_transaction_path(@transaction), class: "button small radius" %>
+  <%= link_to 'Delete This Transaction', transaction_path(@transaction), method: :delete, data: { confirm: "Please confirm you want to delete this transaction." }, class: "button small radius" %>
 </div>

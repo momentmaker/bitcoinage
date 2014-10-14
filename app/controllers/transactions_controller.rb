@@ -15,8 +15,13 @@ class TransactionsController < ApplicationController
   def show
     @transaction = Transaction.find(params[:id])
     if same_user?(@transaction)
-      @transaction_data = select_transaction_data(@transaction)
-      gon.transaction_data = @transaction_data
+      if @transaction.buy?
+        @buy_data = select_transaction_data(@transaction)
+        gon.buy_data = @buy_data
+      else
+        @sell_data = select_transaction_data(@transaction)
+        gon.sell_data = @sell_data
+      end
       @chart_data = select_chart_data(@transaction)
       gon.chart_data = @chart_data
     else
@@ -44,7 +49,7 @@ class TransactionsController < ApplicationController
   def update
     @transaction = Transaction.find(params[:id])
     if @transaction.update(transaction_params)
-      redirect_to transactions_path
+      redirect_to transaction_path(@transaction)
     else
       render :edit
     end

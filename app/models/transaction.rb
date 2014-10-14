@@ -13,6 +13,7 @@ class Transaction < ActiveRecord::Base
   validates :price_dollar, presence: true, numericality: { greater_than: 0 }
   validates :date, presence: true
   validates :fees_percentage, presence: true, numericality: { greater_than: 0 }
+  validate :date_verification
 
   attr_accessor :type
 
@@ -21,6 +22,12 @@ class Transaction < ActiveRecord::Base
       self.satoshi = -(self.satoshi) if self.satoshi > 0
     else
       self.satoshi = -(self.satoshi) if self.satoshi < 0
+    end
+  end
+
+  def date_verification
+    if PricePoint.unix_time(date.to_s) > PricePoint.unix_time(PricePoint.get_todays_date)
+      errors.add(:date, "You can't add a future date.")
     end
   end
 
@@ -175,15 +182,12 @@ class Transaction < ActiveRecord::Base
   end
 
   def within?(days)
+    return false if days == 0
+
     date_limit = PricePoint.last.date
     trans_date = PricePoint.unix_time(self.date.to_s)
     end_date = trans_date + ONE_DAY_UNIX * days
-
-    if end_date >= date_limit
-      false
-    else
-      true
-    end
+    end_date > date_limit ? false : true
   end
 
   def get_to_date_days
@@ -193,7 +197,6 @@ class Transaction < ActiveRecord::Base
       0
     else
       (date_limit - trans_date) / ONE_DAY_UNIX
-
     end
   end
 

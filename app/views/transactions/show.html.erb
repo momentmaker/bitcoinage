@@ -267,7 +267,9 @@
 </div>
 
 <div class="text-center">
-  <%= link_to 'View All Transactions', transactions_path, class: "button small secondary radius" %>
   <%= link_to "Edit This Transaction", edit_transaction_path(@transaction), class: "button small radius" %>
-  <%= link_to 'Delete This Transaction', transaction_path(@transaction), method: :delete, data: { confirm: "Please confirm you want to delete this transaction." }, class: "button small radius" %>
+  <%= link_to 'Delete This Transaction', transaction_path(@transaction), method: :delete,
+      data: { confirm: "Please confirm you want to delete this transaction." }, class: "button small radius" %><br>
+  <%= link_to 'View All Transactions', transactions_path, class: "button small secondary radius" %>
+  <%= link_to 'Add Another Transaction', new_transaction_path, class: "button small secondary radius" %>
 </div>

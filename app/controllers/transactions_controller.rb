@@ -1,7 +1,9 @@
 class TransactionsController < ApplicationController
   before_action :authenticate!
   def index
-    @transactions = Transaction.where(user_id: current_user.id)
+    @transactions = Transaction.where(user_id: current_user.id).order(:date)
+    @transaction_data = all_transaction_data(@transactions)
+    gon.transaction_data = @transaction_data
     @chart_data = all_chart_data
     gon.chart_data = @chart_data
   end
@@ -9,6 +11,8 @@ class TransactionsController < ApplicationController
   def show
     @transaction = Transaction.find(params[:id])
     if same_user?(@transaction)
+      @transaction_data = select_transaction_data(@transaction)
+      gon.transaction_data = @transaction_data
       @chart_data = select_chart_data(@transaction)
       gon.chart_data = @chart_data
     else

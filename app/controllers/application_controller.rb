@@ -53,4 +53,17 @@ class ApplicationController < ActionController::Base
     end
     data
   end
+
+  def all_transaction_data(transactions)
+    data = []
+    transactions.each do |transaction|
+      data << [PricePoint.unix_time(transaction.date.to_s), transaction.price_dollar]
+    end
+    data
+  end
+
+  def select_transaction_data(transaction)
+    data = []
+    data << [PricePoint.unix_time(transaction.date.to_s), transaction.price_dollar]
+  end
 end

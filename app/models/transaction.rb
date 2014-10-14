@@ -179,7 +179,7 @@ class Transaction < ActiveRecord::Base
     trans_date = PricePoint.unix_time(self.date.to_s)
     end_date = trans_date + ONE_DAY_UNIX * days
 
-    if end_date > date_limit
+    if end_date >= date_limit
       false
     else
       true
@@ -189,10 +189,11 @@ class Transaction < ActiveRecord::Base
   def get_to_date_days
     date_limit = PricePoint.last.date
     trans_date = PricePoint.unix_time(self.date.to_s)
-    if (date_limit - trans_date) / ONE_DAY_UNIX < 0
+    if (date_limit - trans_date) / ONE_DAY_UNIX <= 0
       0
     else
       (date_limit - trans_date) / ONE_DAY_UNIX
+
     end
   end
 
@@ -210,5 +211,15 @@ class Transaction < ActiveRecord::Base
     else
       price_dollar > avg_price_per(days) ? true : false
     end
+  end
+
+  def self.chart_data
+    data = []
+    binding.pry
+    transactions.each do |transaction|
+      data << [PricePoint.unix_time(transaction.date.to_s), transaction.price_dollar]
+      binding.pry
+    end
+    data
   end
 end

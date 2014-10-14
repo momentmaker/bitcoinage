@@ -2,9 +2,13 @@ class TransactionsController < ApplicationController
   before_action :authenticate!
   def index
     @transactions = Transaction.where(user_id: current_user.id).order(:date)
-    @transaction_data = all_transaction_data(@transactions)
-    gon.transaction_data = @transaction_data
+    @transactions_buy = Transaction.where('user_id = ? AND satoshi > ?', current_user.id, 0).order(:date)
+    @transactions_sell = Transaction.where('user_id = ? AND satoshi < ?', current_user.id, 0).order(:date)
+    @buy_data = all_transaction_data(@transactions_buy)
+    @sell_data = all_transaction_data(@transactions_sell)
     @chart_data = all_chart_data
+    gon.buy_data = @buy_data
+    gon.sell_data = @sell_data
     gon.chart_data = @chart_data
   end
 

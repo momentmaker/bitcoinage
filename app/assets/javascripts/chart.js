@@ -50,14 +50,26 @@ $(function () {
                 valueDecimals: 2
             }
           }, {
-            id: 'TRANSACTIONS',
+            id: 'BUY',
             type: 'column',
-            name: 'Price Bought/Sold',
-            color: '#558C89',
+            name: 'Price Bought',
+            color: '#216C2A',
             marker: {
               symbol: 'url(http://i.imgur.com/380q6kj.png)'
             },
-            data: gon.transaction_data,
+            data: gon.buy_data,
+            tooltip: {
+                valueDecimals: 2
+            },
+          }, {
+            id: 'SELL',
+            type: 'column',
+            name: 'Price Sold',
+            color: '#8A0707',
+            marker: {
+              symbol: 'url(http://i.imgur.com/380q6kj.png)'
+            },
+            data: gon.sell_data,
             tooltip: {
                 valueDecimals: 2
             }

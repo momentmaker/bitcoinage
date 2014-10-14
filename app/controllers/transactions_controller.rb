@@ -1,12 +1,32 @@
 class TransactionsController < ApplicationController
+  before_action :authenticate!
   def index
-    @transactions = Transaction.order(updated_at: :desc)
-    @chart_data = get_chart_data
+    @transactions = Transaction.where(user_id: current_user.id).order(:date)
+    @transactions_buy = Transaction.where('user_id = ? AND satoshi > ?', current_user.id, 0).order(:date)
+    @transactions_sell = Transaction.where('user_id = ? AND satoshi < ?', current_user.id, 0).order(:date)
+    @buy_data = all_transaction_data(@transactions_buy)
+    @sell_data = all_transaction_data(@transactions_sell)
+    @chart_data = all_chart_data
+    gon.buy_data = @buy_data
+    gon.sell_data = @sell_data
     gon.chart_data = @chart_data
   end
 
   def show
     @transaction = Transaction.find(params[:id])
+    if same_user?(@transaction)
+      if @transaction.buy?
+        @buy_data = select_transaction_data(@transaction)
+        gon.buy_data = @buy_data
+      else
+        @sell_data = select_transaction_data(@transaction)
+        gon.sell_data = @sell_data
+      end
+      @chart_data = select_chart_data(@transaction)
+      gon.chart_data = @chart_data
+    else
+      redirect_to root_path, alert: 'This transaction is not yours!'
+    end
   end
 
   def new
@@ -14,10 +34,9 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new(transaction_params)
-
+    @transaction = current_user.transactions.build(transaction_params)
     if @transaction.save
-      redirect_to @transaction, notice: 'Your transaction has been submitted.'
+      redirect_to transaction_path(@transaction), notice: 'Your transaction has been submitted.'
     else
       render 'new'
     end
@@ -25,35 +44,24 @@ class TransactionsController < ApplicationController
 
   def edit
     @transaction = Transaction.find(params[:id])
-    # @answers = Answer.find(:all)
   end
 
   def update
     @transaction = Transaction.find(params[:id])
     if @transaction.update(transaction_params)
-      redirect_to @transaction
+      redirect_to transaction_path(@transaction)
     else
       render :edit
     end
   end
 
   def destroy
-    transaction.find(params[:id]).destroy
-    redirect_to @transaction
-  end
-
-  def search
-    query = "%#{params[:query]}%"
-    @transactions = Transaction
-      .where('title like ? or description like ?',
-             query, query)
+    Transaction.find(params[:id]).destroy
+    redirect_to transactions_path
   end
 
   private
-
-  # Never trust parameters from the scary internet, only allow the white list through.
   def transaction_params
-    params.require(:transaction).permit(:quantity, :price, :date)
+    params.require(:transaction).permit(:type, :bitcoin, :price_dollar, :date, :fees, :wallet, :trans_hash)
   end
-
 end

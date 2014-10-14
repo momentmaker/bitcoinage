@@ -12,10 +12,13 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'foundation-rails'
 gem 'omniauth-twitter'
+gem 'simple_form'
 gem 'redcarpet'
+gem "font-awesome-rails"
 gem 'gon'
 gem 'unicorn'
 gem 'rails_12factor', group: :production
+gem 'pickadate-rails'
 
 group :development, :test do
   gem 'pry-rails'

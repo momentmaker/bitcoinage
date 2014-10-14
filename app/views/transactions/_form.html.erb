@@ -1,0 +1,12 @@
+<%= simple_form_for @transaction do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :type, collection: Transaction::TYPE, as: :radio_buttons, checked: @transaction.find_type, required: true %>
+  <%= f.input :bitcoin, placeholder: 'B⃦', label: 'Bitcoins' %>
+  <%= f.input :price_dollar, placeholder: '$', label: 'Price' %>
+  <%= f.input :date, as: :string, input_html: { class: "datepicker" }, label: 'Transaction Date' %>
+  <%= f.input :fees, required: true,
+    collection: Transaction::FEE_PERCENTAGES, selected: @transaction.find_fee_percentage %>
+  <%= f.input :wallet, label: "Wallet Address" %>
+  <%= f.input :trans_hash, label: "Transaction Hash" %>
+  <%= f.button :submit, class: "small" %>
+<% end %>

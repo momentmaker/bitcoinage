@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'transactions#index'
+  root 'welcome#index'
 
   resources :transactions
 

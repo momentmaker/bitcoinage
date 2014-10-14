@@ -47,13 +47,6 @@ class TransactionsController < ApplicationController
     redirect_to transactions_path
   end
 
-  def search
-    query = "%#{params[:query]}%"
-    @transactions = Transaction
-      .where('title like ? or description like ?',
-             query, query)
-  end
-
   private
   def transaction_params
     params.require(:transaction).permit(:type, :bitcoin, :price_dollar, :date, :fees, :wallet, :trans_hash)

@@ -4,7 +4,7 @@ class Transaction < ActiveRecord::Base
   TYPE = ["Buy", "Sell"]
   ONE_DAY_UNIX = 86400000
 
-  belongs_to :user, dependent: :destroy
+  belongs_to :user
 
   validates :type, presence: true
   validates :satoshi, presence: true, numericality: true
@@ -61,7 +61,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.avg_bitcoin_buy
-    avg_satoshi_buy != nil ? -avg_satoshi_buy / SATOSHI_BITCOIN_FACTOR : nil
+    avg_satoshi_buy != nil ? avg_satoshi_buy / SATOSHI_BITCOIN_FACTOR : nil
   end
 
   def self.total_satoshi_sell

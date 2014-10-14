@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :transactions
+  has_many :transactions, dependent: :destroy
 
   validates :provider, :uid, :name, :username, :url, presence: true
 

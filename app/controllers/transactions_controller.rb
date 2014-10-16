@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :authenticate!
+  
   def index
     @transactions = Transaction.where(user_id: current_user.id).order(:date)
     @transactions_buy = Transaction.where('user_id = ? AND satoshi > ?', current_user.id, 0).order(:date)

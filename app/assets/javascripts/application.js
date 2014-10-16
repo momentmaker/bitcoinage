@@ -23,129 +23,91 @@
 //= require highstock
 //= require chart
 
+
+//Sign In button
 var document = window.document,
-
-	  $_window = $( window ),
-
+	$_window = $( window ),
   timeout,
-
   isAnimating = false,
   slideNum = 0,
 
-  	$welcomeBarL = $( ".bt-sl-solid-l" ),
-	  $welcomeBarR = $( ".bt-sl-solid-r" ),
-	  $btSlideActive = $( ".welcome-button" ).find( ".bt-slide-l" ),
-
-	  $welcomeBtn = $( ".welcome-button a" );
+	$welcomeBarL = $( ".bt-sl-solid-l" ),
+  $welcomeBarR = $( ".bt-sl-solid-r" ),
+  $btSlideActive = $( ".welcome-button" ).find( ".bt-slide-l" ),
+  $welcomeBtn = $( ".welcome-button a" );
 
 $welcomeBtn.on( 'mouseenter', function () {
 	  var timeout,
-		    $slidebar = $( '.bt-slider-' + slideNum ),
-
+    $slidebar = $( '.bt-slider-' + slideNum ),
     animate = function () {
-
 			      timeout = setTimeout(function () {
 				        clearTimeout( timeout );
-
 				        if ( slideNum === 5 ) {
-
 					          isAnimating = false;
           					slideNum = 0;
-
 				        } else {
-
           					isAnimating = true;
           					$slidebar = $( '.bt-slider-' + slideNum );
-
           					$slidebar.removeClass( 'bt-slide-l' );
-
           					slideNum++;
-
           					animate();
-
 				        }
-
       			}, 100 );
 		   };
-
 	  animate();
-
 });
 
 $welcomeBtn.on( 'mouseout', function () {
 	  var timeout,
 		      $slidebar = $( '.bt-slider-' + slideNum ),
-
 		      animate = function () {
-
         timeout = setTimeout(function () {
           				clearTimeout( timeout );
-
           				if ( slideNum === 5 ) {
-
             					isAnimating = false;
             					slideNum = 0;
-
           				} else {
-
             					isAnimating = true;
             					$slidebar = $( '.bt-slider-' + slideNum );
-
             					$slidebar.addClass( 'bt-slide-l' );
-
             					slideNum++;
-
             					animate();
-
 				          }
-
         			}, 100 );
     		};
-
   	animate();
-
 });
 
 $_window.on( "load", function () {
-
   timeout = setTimeout(function () {
 					    clearTimeout();
-
 					    $welcomeBarL.removeClass( "down" );
     					$welcomeBarR.removeClass( "down" );
-
   				}, 100 );
-
   				timeout = setTimeout(function () {
     					clearTimeout();
-
     					$welcomeBarL.removeClass( "out" );
     					$welcomeBarR.removeClass( "out" );
-
   				}, 400 );
-
   timeout = setTimeout(function () {
     					clearTimeout();
-
     					$welcomeBtn.removeClass( "out" );
-
   				}, 800 );
-
   timeout = setTimeout(function () {
     					clearTimeout();
-
     					$btSlideActive.removeClass( "out" );
-
   				}, 1000 );
-
 });
 
+//Foundation
 $(function(){ $(document).foundation(); });
 
+//Datepicker
 $('.datepicker').pickadate({
 
 });
 
+//Makes tables sortable for bitcoin and total
 $(document).ready( function() {
   function satoshiValue(string) {
     if (string[0] == "(") {
@@ -191,7 +153,7 @@ $(document).ready( function() {
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
   };
 
-
+//Datatable
   $('#trans_table').dataTable( {
     "aoColumnDefs": [
       { "type": "satoshi", "targets": [1] },
@@ -204,37 +166,3 @@ $(document).ready( function() {
   oTable.fnSort( [ [0,'desc'] ] );
   new $.fn.dataTable.KeyTable( oTable );
 } );
-
-
-
-$(".show-more a").on("click", function() {
-    var $link = $(this);
-    var $content = $link.parent().prev("div.text-content");
-    var linkText = $link.text();
-
-    switchClasses($content);
-
-    $link.text(getShowLinkText(linkText));
-
-    return false;
-});
-
-function switchClasses($content){
-    if($content.hasClass("short-text")){
-        $content.switchClass("short-text", "full-text", 400);
-    } else {
-        $content.switchClass("full-text", "short-text", 400);
-    }
-}
-
-function getShowLinkText(currentText){
-    var newText = '';
-
-    if (currentText.toUpperCase() === "SHOW MORE") {
-        newText = "Show less";
-    } else {
-        newText = "Show more";
-    }
-
-    return newText;
-}

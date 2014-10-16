@@ -123,7 +123,7 @@
       </tfoot>
     <tbody>
       <% @transactions.each do |transaction| %>
-          <tr>
+          <tr id="#{<%= transaction.id %>}">
             <td><%= transaction.date %></td>
             <td>
               <% if transaction.buy? %>

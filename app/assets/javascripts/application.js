@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require foundation
 //= require dataTables
 //= require dataTables.foundation
@@ -203,3 +204,37 @@ $(document).ready( function() {
   oTable.fnSort( [ [0,'desc'] ] );
   new $.fn.dataTable.KeyTable( oTable );
 } );
+
+
+
+$(".show-more a").on("click", function() {
+    var $link = $(this);
+    var $content = $link.parent().prev("div.text-content");
+    var linkText = $link.text();
+
+    switchClasses($content);
+
+    $link.text(getShowLinkText(linkText));
+
+    return false;
+});
+
+function switchClasses($content){
+    if($content.hasClass("short-text")){
+        $content.switchClass("short-text", "full-text", 400);
+    } else {
+        $content.switchClass("full-text", "short-text", 400);
+    }
+}
+
+function getShowLinkText(currentText){
+    var newText = '';
+
+    if (currentText.toUpperCase() === "SHOW MORE") {
+        newText = "Show less";
+    } else {
+        newText = "Show more";
+    }
+
+    return newText;
+}

@@ -229,3 +229,18 @@ a {
   padding-right: 30%;
   word-break: break-all;
 }
+
+
+
+.text-content{
+    line-height: 1em;
+}
+
+.short-text {
+    overflow: hidden;
+    height: 2em;
+}
+
+.full-text{
+    height: auto;
+}

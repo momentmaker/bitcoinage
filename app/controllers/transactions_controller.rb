@@ -1,6 +1,8 @@
 class TransactionsController < ApplicationController
   before_action :authenticate!
+
   def index
+    # Transaction.wallet_search(params[:address]) if params[:address]
     @transactions = Transaction.where(user_id: current_user.id).order(:date)
     @transactions_buy = Transaction.where('user_id = ? AND satoshi > ?', current_user.id, 0).order(:date)
     @transactions_sell = Transaction.where('user_id = ? AND satoshi < ?', current_user.id, 0).order(:date)
@@ -59,6 +61,7 @@ class TransactionsController < ApplicationController
     Transaction.find(params[:id]).destroy
     redirect_to transactions_path
   end
+
 
   private
   def transaction_params

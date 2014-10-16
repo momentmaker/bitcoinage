@@ -17,6 +17,22 @@ class Transaction < ActiveRecord::Base
 
   attr_accessor :type
 
+  # def self.wallet_search(address)
+  #   # parse your address and build API url to hit
+  #   # call API url and return results
+  #   # for each result, find_or_initialize_by the result hash you get back
+  #   # trans = Transaction.find_or_initialize_by(transaction_id: result['transaction_id'])
+  #   # trans.update_attributes(result)
+  #   results = JSON.load(open("https://bitcoin.toshi.io/api/v0/addresses/#{address}/transactions"))
+  #   binding.pry
+  #   results.each do |result|
+  #     trans = Transaction.find_or_initialize_by(transaction_id: result['transaction_id'])
+  #     trans.price_dollar = result['price_dollar']
+  #     trans.type = result['type']
+  #     trans.save
+  #   end
+  # end
+
   before_save do
     if type == "Sell"
       self.satoshi = -(self.satoshi) if self.satoshi > 0

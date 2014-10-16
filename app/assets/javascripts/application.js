@@ -18,6 +18,7 @@
 //= require dataTables.foundation
 //= require dataTables.keyTable
 //= require dataTables.responsive
+//= require jquery.dataTables.editable
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require highstock

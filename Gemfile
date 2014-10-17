@@ -19,6 +19,7 @@ gem 'gon'
 gem 'unicorn'
 gem 'rails_12factor', group: :production
 gem 'pickadate-rails'
+gem 'best_in_place', git: 'https://github.com/aaronchi/best_in_place.git'
 
 group :development, :test do
   gem 'pry-rails'
@@ -28,4 +29,5 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'dotenv-rails'
   gem 'quiet_assets'
+  gem 'rack-mini-profiler'
 end

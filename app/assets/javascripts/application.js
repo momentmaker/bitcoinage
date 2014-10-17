@@ -12,7 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require best_in_place
+//= require jquery.validate
 //= require foundation
+//= require jquery.jeditable
 //= require dataTables
 //= require dataTables.foundation
 //= require dataTables.keyTable
@@ -107,6 +111,41 @@ $('.datepicker').pickadate({
 
 });
 
+//Best In Place
+$(document).ready(function() {
+  /* Activating Best In Place */
+  $(".best_in_place").best_in_place();
+	$(".best_in_place").change(function(e) {
+		var target = $(e.target);
+		calcTotal(target);
+	});
+});
+
+function calcTotal(target) {
+	// Find the target
+
+	// Find parent
+	var td = target.parents("td").siblings();
+	td.each(function() {
+		var mySpan = $(this).find("span");
+		// console.log(mySpan.data("attribute"));
+		if(mySpan.data("attribute") == "bitcoin") {
+			console.log($(this).find("span").data("original-content"));
+		}
+		// Grab the total field
+		// var total = $(this).find("span");
+		// Grab the bitcoin field
+		// var bitcoin = mySpan.filter(function() {
+		// 	return mySpan.data("attribute") == "bitcoin"
+		// });
+		// Grab the price field
+		// var price = $(this).find("span").data("attribute");
+		// Grab the fees field
+
+	});
+
+}
+
 //Makes tables sortable for bitcoin and total
 $(document).ready( function() {
   function satoshiValue(string) {
@@ -158,8 +197,8 @@ $(document).ready( function() {
     "aoColumnDefs": [
       { "type": "satoshi", "targets": [1] },
       { "type": "price", "targets": [4] },
-      { "bSortable": false, "aTargets": [5, 6, 7, 8] }
-    ] } );
+      { "bSortable": false, "aTargets": [5, 6, 7, 8] }]
+		} );
   var oTable = $('#trans_table').dataTable();
 
   // Sort immediately with columns 0 and 1

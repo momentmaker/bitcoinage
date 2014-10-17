@@ -80,11 +80,11 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.total_bitcoin_sell
-    -total_satoshi_sell / SATOSHI_BITCOIN_FACTOR
+    total_satoshi_sell / SATOSHI_BITCOIN_FACTOR
   end
 
   def self.avg_bitcoin_sell
-    avg_satoshi_sell != nil ? -avg_satoshi_sell / SATOSHI_BITCOIN_FACTOR : nil
+    avg_satoshi_sell != nil ? avg_satoshi_sell / SATOSHI_BITCOIN_FACTOR : nil
   end
 
   def self.avg_cent_buy
@@ -149,7 +149,7 @@ class Transaction < ActiveRecord::Base
     sells.each do |sell|
       sum += sell.satoshi * sell.price_cent / 100 * (1 + sell.fees_percentage / 10000) / SATOSHI_BITCOIN_FACTOR
     end
-    -sum
+    sum
   end
 
   def self.avg_investment_sell
@@ -224,5 +224,9 @@ class Transaction < ActiveRecord::Base
       binding.pry
     end
     data
+  end
+
+  def display_bitcoins
+    ActionController::Base.helpers.number_to_currency(self.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)")
   end
 end

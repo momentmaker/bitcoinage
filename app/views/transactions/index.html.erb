@@ -123,9 +123,9 @@
       </tfoot>
     <tbody>
       <% @transactions.each do |transaction| %>
-          <tr id="<%= transaction.id %>">
+          <tr class="transaction" id="<%= transaction.id %>">
             <td><%= best_in_place transaction, :date %></td>
-            <td>
+            <td class="bitcoin">
               <% if transaction.buy? %>
                 <div class="bitcoins-buy">
                   <%= best_in_place transaction, :bitcoin, display_as: :display_bitcoins %>
@@ -136,9 +136,9 @@
                 </div>
               <% end %>
             </td>
-            <td><%= best_in_place transaction, :price_dollar, display_with: :number_to_currency %></td>
-            <td><%= best_in_place transaction, :fees %>%</td>
-            <td><%= number_to_currency(transaction.total_investment, negative_format: "(%u%n)") %></td>
+            <td class="price"><%= best_in_place transaction, :price_dollar, display_with: :number_to_currency %></td>
+            <td class="fees"><%= best_in_place transaction, :fees %>%</td>
+            <td class="total"><%= number_to_currency(transaction.total_investment, negative_format: "(%u%n)") %></td>
             <td>
               <% if transaction.within?(30) %>
                 <% if transaction.beat_avg?(30) %>

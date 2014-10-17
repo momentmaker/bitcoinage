@@ -19,7 +19,6 @@
 //= require jquery.jeditable
 //= require dataTables
 //= require dataTables.foundation
-//= require dataTables.keyTable
 //= require dataTables.responsive
 //= require jquery.dataTables.editable
 //= require pickadate/picker
@@ -113,38 +112,43 @@ $('.datepicker').pickadate({
 
 //Best In Place
 $(document).ready(function() {
-  /* Activating Best In Place */
   $(".best_in_place").best_in_place();
+	$('.best_in_place').bind("ajax:success", function (data) {
+		$(this).closest('tr').effect('highlight');
+	});
+
 	$(".best_in_place").change(function(e) {
-		var target = $(e.target);
-		calcTotal(target);
+		var transaction = $(e.target).closest(".transaction");
+
+		if (e.target.name === "price_dollar") {
+			var price = parseFloat(e.target.value);
+		} else {
+			var price = parseFloat(transaction.children(".price").text().trim().substring(1));
+		}
+
+		if (e.target.name === "bitcoin") {
+			var bitcoin = parseFloat(e.target.value);
+		} else {
+			if (transaction.children(".bitcoin").text().trim().charAt(0) === "(") {
+				var bitcoin = parseFloat(transaction.children(".bitcoin").text().trim().substring(3));
+			} else {
+				var bitcoin = parseFloat(transaction.children(".bitcoin").text().trim().substring(2));
+			}
+		}
+
+		if (e.target.name === "fees") {
+			var fees = parseFloat(e.target.value) / 100.0;
+		} else {
+			var fees = parseFloat(transaction.children(".fees").text()) / 100.0;
+		}
+
+		if (transaction.children(".total").text().charAt(0) === "(") {
+			transaction.children(".total").text("($" + parseFloat(Math.round((price * bitcoin * fees + price * bitcoin))).toFixed(2) + ")");
+		} else {
+			transaction.children(".total").text("$" + (price * bitcoin * fees + price * bitcoin).toFixed(2));
+		}
 	});
 });
-
-function calcTotal(target) {
-	// Find the target
-
-	// Find parent
-	var td = target.parents("td").siblings();
-	td.each(function() {
-		var mySpan = $(this).find("span");
-		// console.log(mySpan.data("attribute"));
-		if(mySpan.data("attribute") == "bitcoin") {
-			console.log($(this).find("span").data("original-content"));
-		}
-		// Grab the total field
-		// var total = $(this).find("span");
-		// Grab the bitcoin field
-		// var bitcoin = mySpan.filter(function() {
-		// 	return mySpan.data("attribute") == "bitcoin"
-		// });
-		// Grab the price field
-		// var price = $(this).find("span").data("attribute");
-		// Grab the fees field
-
-	});
-
-}
 
 //Makes tables sortable for bitcoin and total
 $(document).ready( function() {
@@ -203,5 +207,4 @@ $(document).ready( function() {
 
   // Sort immediately with columns 0 and 1
   oTable.fnSort( [ [0,'desc'] ] );
-  new $.fn.dataTable.KeyTable( oTable );
 } );

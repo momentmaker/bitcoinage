@@ -12,10 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require best_in_place
+//= require jquery.validate
 //= require foundation
+//= require jquery.jeditable
 //= require dataTables
 //= require dataTables.foundation
-//= require dataTables.keyTable
 //= require dataTables.responsive
 //= require jquery.dataTables.editable
 //= require pickadate/picker
@@ -23,129 +26,131 @@
 //= require highstock
 //= require chart
 
+
+//Sign In button
 var document = window.document,
-
-	  $_window = $( window ),
-
+	$_window = $( window ),
   timeout,
-
   isAnimating = false,
   slideNum = 0,
 
-  	$welcomeBarL = $( ".bt-sl-solid-l" ),
-	  $welcomeBarR = $( ".bt-sl-solid-r" ),
-	  $btSlideActive = $( ".welcome-button" ).find( ".bt-slide-l" ),
-
-	  $welcomeBtn = $( ".welcome-button a" );
+	$welcomeBarL = $( ".bt-sl-solid-l" ),
+  $welcomeBarR = $( ".bt-sl-solid-r" ),
+  $btSlideActive = $( ".welcome-button" ).find( ".bt-slide-l" ),
+  $welcomeBtn = $( ".welcome-button a" );
 
 $welcomeBtn.on( 'mouseenter', function () {
 	  var timeout,
-		    $slidebar = $( '.bt-slider-' + slideNum ),
-
+    $slidebar = $( '.bt-slider-' + slideNum ),
     animate = function () {
-
 			      timeout = setTimeout(function () {
 				        clearTimeout( timeout );
-
 				        if ( slideNum === 5 ) {
-
 					          isAnimating = false;
           					slideNum = 0;
-
 				        } else {
-
           					isAnimating = true;
           					$slidebar = $( '.bt-slider-' + slideNum );
-
           					$slidebar.removeClass( 'bt-slide-l' );
-
           					slideNum++;
-
           					animate();
-
 				        }
-
       			}, 100 );
 		   };
-
 	  animate();
-
 });
 
 $welcomeBtn.on( 'mouseout', function () {
 	  var timeout,
 		      $slidebar = $( '.bt-slider-' + slideNum ),
-
 		      animate = function () {
-
         timeout = setTimeout(function () {
           				clearTimeout( timeout );
-
           				if ( slideNum === 5 ) {
-
             					isAnimating = false;
             					slideNum = 0;
-
           				} else {
-
             					isAnimating = true;
             					$slidebar = $( '.bt-slider-' + slideNum );
-
             					$slidebar.addClass( 'bt-slide-l' );
-
             					slideNum++;
-
             					animate();
-
 				          }
-
         			}, 100 );
     		};
-
   	animate();
-
 });
 
 $_window.on( "load", function () {
-
   timeout = setTimeout(function () {
 					    clearTimeout();
-
 					    $welcomeBarL.removeClass( "down" );
     					$welcomeBarR.removeClass( "down" );
-
   				}, 100 );
-
   				timeout = setTimeout(function () {
     					clearTimeout();
-
     					$welcomeBarL.removeClass( "out" );
     					$welcomeBarR.removeClass( "out" );
-
   				}, 400 );
-
   timeout = setTimeout(function () {
     					clearTimeout();
-
     					$welcomeBtn.removeClass( "out" );
-
   				}, 800 );
-
   timeout = setTimeout(function () {
     					clearTimeout();
-
     					$btSlideActive.removeClass( "out" );
-
   				}, 1000 );
-
 });
 
+//Foundation
 $(function(){ $(document).foundation(); });
 
+//Datepicker
 $('.datepicker').pickadate({
 
 });
 
+//Best In Place
+$(document).ready(function() {
+  $(".best_in_place").best_in_place();
+	$('.best_in_place').bind("ajax:success", function (data) {
+		$(this).closest('tr').effect('highlight');
+	});
+
+	$(".best_in_place").change(function(e) {
+		var transaction = $(e.target).closest(".transaction");
+
+		if (e.target.name === "price_dollar") {
+			var price = parseFloat(e.target.value);
+		} else {
+			var price = parseFloat(transaction.children(".price").text().trim().substring(1));
+		}
+
+		if (e.target.name === "bitcoin") {
+			var bitcoin = parseFloat(e.target.value);
+		} else {
+			if (transaction.children(".bitcoin").text().trim().charAt(0) === "(") {
+				var bitcoin = parseFloat(transaction.children(".bitcoin").text().trim().substring(3));
+			} else {
+				var bitcoin = parseFloat(transaction.children(".bitcoin").text().trim().substring(2));
+			}
+		}
+
+		if (e.target.name === "fees") {
+			var fees = parseFloat(e.target.value) / 100.0;
+		} else {
+			var fees = parseFloat(transaction.children(".fees").text()) / 100.0;
+		}
+
+		if (transaction.children(".total").text().charAt(0) === "(") {
+			transaction.children(".total").text("($" + parseFloat(Math.round((price * bitcoin * fees + price * bitcoin))).toFixed(2) + ")");
+		} else {
+			transaction.children(".total").text("$" + (price * bitcoin * fees + price * bitcoin).toFixed(2));
+		}
+	});
+});
+
+//Makes tables sortable for bitcoin and total
 $(document).ready( function() {
   function satoshiValue(string) {
     if (string[0] == "(") {
@@ -191,50 +196,15 @@ $(document).ready( function() {
     return ((x < y) ?  1 : ((x > y) ? -1 : 0));
   };
 
-
+//Datatable
   $('#trans_table').dataTable( {
     "aoColumnDefs": [
       { "type": "satoshi", "targets": [1] },
       { "type": "price", "targets": [4] },
-      { "bSortable": false, "aTargets": [5, 6, 7, 8] }
-    ] } );
+      { "bSortable": false, "aTargets": [5, 6, 7, 8] }]
+		} );
   var oTable = $('#trans_table').dataTable();
 
   // Sort immediately with columns 0 and 1
   oTable.fnSort( [ [0,'desc'] ] );
-  new $.fn.dataTable.KeyTable( oTable );
 } );
-
-
-
-$(".show-more a").on("click", function() {
-    var $link = $(this);
-    var $content = $link.parent().prev("div.text-content");
-    var linkText = $link.text();
-
-    switchClasses($content);
-
-    $link.text(getShowLinkText(linkText));
-
-    return false;
-});
-
-function switchClasses($content){
-    if($content.hasClass("short-text")){
-        $content.switchClass("short-text", "full-text", 400);
-    } else {
-        $content.switchClass("full-text", "short-text", 400);
-    }
-}
-
-function getShowLinkText(currentText){
-    var newText = '';
-
-    if (currentText.toUpperCase() === "SHOW MORE") {
-        newText = "Show less";
-    } else {
-        newText = "Show more";
-    }
-
-    return newText;
-}

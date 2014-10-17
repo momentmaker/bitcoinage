@@ -63,14 +63,14 @@
           <th width="80">Sell Sum</th>
           <th width="120">
             <% if @transactions.total_bitcoin_sell != 0 %>
-              <%= number_to_currency("#{@transactions.total_bitcoin_sell}", unit: "B⃦", precision: 8) %>
+              <%= number_to_currency("#{@transactions.total_bitcoin_sell}", unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
             <% end %>
           </th>
           <th width="70"></th>
           <th width="20"></th>
           <th width="100">
             <% if @transactions.total_investment_sell != 0 %>
-              <%= number_to_currency("#{@transactions.total_investment_sell}") %>
+              <%= number_to_currency("#{@transactions.total_investment_sell}", negative_format: "(%u%n)") %>
             <% end %>
           </th>
           <th width="20"></th>
@@ -82,7 +82,7 @@
           <th width="80">Sell Average</th>
           <th width="120">
             <% if @transactions.avg_bitcoin_sell != nil %>
-              <%= number_to_currency("#{@transactions.avg_bitcoin_sell}", unit: "B⃦", precision: 8) %>
+              <%= number_to_currency("#{@transactions.avg_bitcoin_sell}", unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
             <% end %>
           </th>
           <th width="70">
@@ -93,7 +93,7 @@
           <th width="20"></th>
           <th width="100">
             <% if @transactions.avg_investment_sell != nil %>
-              <%= number_to_currency("#{@transactions.avg_investment_sell}") %>
+              <%= number_to_currency("#{@transactions.avg_investment_sell}", negative_format: "(%u%n)")  %>
             <% end %>
           </th>
           <th width="20"></th>
@@ -105,14 +105,14 @@
           <th width="80">Total Investment</th>
           <th width="120">
             <% if @transactions.total_bitcoin_buy != 0 || @transactions.total_bitcoin_sell != 0 %>
-              <%= number_to_currency("#{@transactions.total_bitcoin_buy - @transactions.total_bitcoin_sell}", unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
+              <%= number_to_currency("#{@transactions.total_bitcoin_buy + @transactions.total_bitcoin_sell}", unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
             <% end %>
           </th>
           <th width="70"></th>
           <th width="20"></th>
           <th width="100">
             <% if @transactions.total_investment_buy != 0 || @transactions.total_investment_sell != 0 %>
-              <%= number_to_currency("#{@transactions.total_investment_buy - @transactions.total_investment_sell}", negative_format: "(%u%n)") %>
+              <%= number_to_currency("#{@transactions.total_investment_buy + @transactions.total_investment_sell}", negative_format: "(%u%n)") %>
             <% end %>
           </th>
           <th width="20"></th>
@@ -123,22 +123,22 @@
       </tfoot>
     <tbody>
       <% @transactions.each do |transaction| %>
-          <tr>
-            <td><%= transaction.date %></td>
-            <td>
+          <tr class="transaction" id="<%= transaction.id %>">
+            <td><%= best_in_place transaction, :date %></td>
+            <td class="bitcoin">
               <% if transaction.buy? %>
                 <div class="bitcoins-buy">
-                  <%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
+                  <%= best_in_place transaction, :bitcoin, display_as: :display_bitcoins %>
                 </div>
               <% else %>
                 <div class="bitcoins-sell">
-                  <%= number_to_currency(transaction.bitcoin, unit: "B⃦", precision: 8, negative_format: "(%u%n)") %>
+                  <%= best_in_place transaction, :bitcoin, display_as: :display_bitcoins %>
                 </div>
               <% end %>
             </td>
-            <td><%= number_to_currency(transaction.price_dollar) %></td>
-            <td><%= transaction.fees %>%</td>
-            <td><%= number_to_currency(transaction.total_investment, negative_format: "(%u%n)") %></td>
+            <td class="price"><%= best_in_place transaction, :price_dollar, display_with: :number_to_currency %></td>
+            <td class="fees"><%= best_in_place transaction, :fees %>%</td>
+            <td class="total"><%= number_to_currency(transaction.total_investment, negative_format: "(%u%n)") %></td>
             <td>
               <% if transaction.within?(30) %>
                 <% if transaction.beat_avg?(30) %>

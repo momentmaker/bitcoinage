@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :authenticate!
+
   def index
     @transactions = Transaction.where(user_id: current_user.id).order(:date)
     @transactions_buy = Transaction.where('user_id = ? AND satoshi > ?', current_user.id, 0).order(:date)
@@ -48,10 +49,15 @@ class TransactionsController < ApplicationController
 
   def update
     @transaction = Transaction.find(params[:id])
-    if @transaction.update(transaction_params)
-      redirect_to transaction_path(@transaction)
-    else
-      render :edit
+    @transaction.type = @transaction.find_type
+    respond_to do |format|
+      if @transaction.update_attributes(transaction_params)
+        format.html { redirect_to(@transaction, :notice => 'Your transaction was updated.') }
+        format.json { respond_with_bip(@transaction) }
+      else
+        format.html { render :edit }
+        format.json { respond_with_bip(@transaction) }
+      end
     end
   end
 

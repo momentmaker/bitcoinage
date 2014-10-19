@@ -18,4 +18,4 @@ You can make live edits on the table in the main page without going to the edit 
 
 In the future, I want to implement an import wallet feature where it will pull all of the transactions related to the wallet and populate them into the table.
 
-*Website:* www.bitcoinage.us
+**Website:** www.bitcoinage.us

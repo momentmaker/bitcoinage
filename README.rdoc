@@ -1,4 +1,4 @@
-# Bitcoinage
+## Bitcoinage
 
 I designed this app for bitcoin investor to track their portfolio performance to see how they doing.
 
@@ -18,4 +18,4 @@ You can make live edits on the table in the main page without going to the edit 
 
 In the future, I want to implement an import wallet feature where it will pull all of the transactions related to the wallet and populate them into the table.
 
-<b>Website:</b> www.bitcoinage.us
+**Website:**</b> www.bitcoinage.us

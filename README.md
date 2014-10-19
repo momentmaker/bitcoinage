@@ -1,4 +1,4 @@
-#====Bitcoinage
+# Bitcoinage
 
 I designed this app for bitcoin investor to track their portfolio performance to see how they doing.
 

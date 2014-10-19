@@ -1,4 +1,4 @@
-<h1>Bitcoinage</h1>
+<b>Bitcoinage</b>
 
 I designed this app for bitcoin investor to track their portfolio performance to see how they doing.
 

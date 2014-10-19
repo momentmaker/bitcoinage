@@ -1,5 +1,5 @@
-## Bitcoinage
-
+Bitcoinage
+===========
 I designed this app for bitcoin investor to track their portfolio performance to see how they doing.
 
 The design is minimalistic for the user experience and all you need to do is login with your Twitter account.

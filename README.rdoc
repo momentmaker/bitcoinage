@@ -1,28 +1,19 @@
-== README
+<h1>Bitcoinage</h1>
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+I designed this app for bitcoin investor to track their portfolio performance to see how they doing.
 
-Things you may want to cover:
+The design is minimalistic for the user experience and all you need to do is login with your Twitter account.
 
-* Ruby version
+Once you're logged in, you can add new transactions. For each transaction, there's a performance evaluation for different periods of time.
 
-* System dependencies
+Each of your transaction will get a score of thumbs up or thumbs down depending on how it did against the market average of that period.
 
-* Configuration
+Once your transaction gets over 30 days from the present day, it will show up on the main page with thumbs up or thumbs down.
 
-* Database creation
+The main chart shows bitcoin prices from beginning of 2011 to the present day. It has a scheduler installed updating the price every day.
 
-* Database initialization
+Each transaction page's chart displays 30 days before the transaction date to the present day.
 
-* How to run the test suite
+You can make live edits on the table in the main page without going to the edit page.
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+In the future, I want to implement an import wallet feature where it will pull all of the transactions related to the wallet and populate them into the table.

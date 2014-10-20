@@ -22,6 +22,7 @@ gem 'pickadate-rails'
 gem 'best_in_place', git: 'https://github.com/aaronchi/best_in_place.git'
 
 group :development, :test do
+  gem 'selenium-webdriver'
   gem 'shoulda'
   gem 'shoulda-matchers'
   gem 'pry-rails'
@@ -32,4 +33,5 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'quiet_assets'
   gem 'rack-mini-profiler'
+  gem 'launchy'
 end

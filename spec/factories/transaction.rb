@@ -4,6 +4,6 @@ FactoryGirl.define do
     bitcoin 12.25
     price_dollar 500.00
     fees_percentage 100
-    date "2013-10-08"
+    date "10-08-2013"
   end
 end

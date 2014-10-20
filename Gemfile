@@ -22,6 +22,8 @@ gem 'pickadate-rails'
 gem 'best_in_place', git: 'https://github.com/aaronchi/best_in_place.git'
 
 group :development, :test do
+  gem 'shoulda'
+  gem 'shoulda-matchers'
   gem 'pry-rails'
   gem 'capybara'
   gem 'rspec-rails'

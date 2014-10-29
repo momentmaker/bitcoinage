@@ -120,6 +120,21 @@
           <th width="20"></th>
           <th width="20"></th>
         </tr>
+        <tr>
+          <th width="80">Total Return</th>
+          <th width="120"></th>
+          <th width="70"><%= number_to_currency("#{@current_price}") %></th>
+          <th width="20"></th>
+          <th width="100">
+            <% if @transactions.total_bitcoin_buy != 0 || @transactions.total_bitcoin_sell != 0 %>
+              <%= number_to_currency("#{(@transactions.total_bitcoin_buy + @transactions.total_bitcoin_sell) * @current_price - (@transactions.total_investment_buy + @transactions.total_investment_sell)}", negative_format: "(%u%n)") %>
+            <% end %>
+          </th>
+          <th width="20"></th>
+          <th width="20"></th>
+          <th width="20"></th>
+          <th width="20"></th>
+        </tr>
       </tfoot>
     <tbody>
       <% @transactions.each do |transaction| %>

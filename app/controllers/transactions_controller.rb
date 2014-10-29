@@ -11,6 +11,7 @@ class TransactionsController < ApplicationController
     gon.buy_data = @buy_data
     gon.sell_data = @sell_data
     gon.chart_data = @chart_data
+    @current_price = PricePoint.last.price
   end
 
   def show

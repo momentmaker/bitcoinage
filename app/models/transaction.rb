@@ -218,12 +218,15 @@ class Transaction < ActiveRecord::Base
 
   def self.chart_data
     data = []
-    binding.pry
     transactions.each do |transaction|
       data << [PricePoint.unix_time(transaction.date.to_s), transaction.price_dollar]
       binding.pry
     end
     data
+  end
+
+  def total_return
+    
   end
 
   def display_bitcoins
